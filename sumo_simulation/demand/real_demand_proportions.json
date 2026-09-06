@@ -1,0 +1,19 @@
+{
+    "_meta": {
+        "method": "PATH_3_DOCUMENT_WEIGHTED",
+        "source": "alignment_results.json confusion matrix",
+        "total_documents": 10910,
+        "actionable_documents": 4478,
+        "non_actionable_documents": 6432
+    },
+    "dispatch_proportions": {
+        "ambulance": 0.6436,
+        "cargo_truck": 0.1679,
+        "first_responder": 0.1885
+    },
+    "raw_document_counts": {
+        "cargo_truck": 752,
+        "ambulance": 2882,
+        "first_responder": 844
+    }
+}

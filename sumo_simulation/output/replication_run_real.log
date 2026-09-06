@@ -1,0 +1,1002 @@
+***Starting server on port 57516 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (470ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_42.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             DYNAMIC REROUTING
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_42.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[t=300.0s] UNDELIVERABLE: Vehicle 'ambulance_4' destination cut off! Removing from network.
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 1
+[t=922.0s] UNDELIVERABLE: Vehicle 'ambulance_16' destination cut off! Removing from network.
+[t=950.0s] UNDELIVERABLE: Vehicle 'first_responder_126' destination cut off! Removing from network.
+[t=1096.0s] UNDELIVERABLE: Vehicle 'cargo_truck_102' destination cut off! Removing from network.
+[t=1152.0s] UNDELIVERABLE: Vehicle 'ambulance_20' destination cut off! Removing from network.
+[t=1445.0s] UNDELIVERABLE: Vehicle 'ambulance_25' destination cut off! Removing from network.
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 7 | Queued: 99 | Undeliverable: 6
+[t=1850.0s] UNDELIVERABLE: Vehicle 'first_responder_131' destination cut off! Removing from network.
+[t=1931.0s] Dynamic Reroute: Vehicle 'ambulance_34' (ambulance) rerouted around debris.
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 7
+[t=3236.0s] UNDELIVERABLE: Vehicle 'ambulance_58' destination cut off! Removing from network.
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 4 | Queued: 50 | Undeliverable: 8
+[t=3618.0s] Dynamic Reroute: Vehicle 'ambulance_64' (ambulance) rerouted around debris.
+[t=3661.0s] Dynamic Reroute: Vehicle 'ambulance_65' (ambulance) rerouted around debris.
+[t=3689.0s] Dynamic Reroute: Vehicle 'cargo_truck_114' (cargo_truck) rerouted around debris.
+[t=3693.0s] Dynamic Reroute: Vehicle 'ambulance_66' (ambulance) rerouted around debris.
+[t=3697.0s] Dynamic Reroute: Vehicle 'first_responder_141' (first_responder) rerouted around debris.
+[t=3794.0s] UNDELIVERABLE: Vehicle 'ambulance_68' destination cut off! Removing from network.
+[t=3862.0s] Dynamic Reroute: Vehicle 'ambulance_69' (ambulance) rerouted around debris.
+[t=3911.0s] Dynamic Reroute: Vehicle 'ambulance_70' (ambulance) rerouted around debris.
+[t=3947.0s] UNDELIVERABLE: Vehicle 'cargo_truck_115' destination cut off! Removing from network.
+[t=4022.0s] Dynamic Reroute: Vehicle 'ambulance_72' (ambulance) rerouted around debris.
+[t=4202.0s] Dynamic Reroute: Vehicle 'first_responder_143' (first_responder) rerouted around debris.
+[t=4207.0s] Dynamic Reroute: Vehicle 'ambulance_75' (ambulance) rerouted around debris.
+[t=4264.0s] Dynamic Reroute: Vehicle 'ambulance_76' (ambulance) rerouted around debris.
+[t=4295.0s] Dynamic Reroute: Vehicle 'cargo_truck_116' (cargo_truck) rerouted around debris.
+[t=4356.0s] Dynamic Reroute: Vehicle 'cargo_truck_117' (cargo_truck) rerouted around debris.
+[t=4374.0s] Dynamic Reroute: Vehicle 'first_responder_144' (first_responder) rerouted around debris.
+[t=4485.0s] Dynamic Reroute: Vehicle 'first_responder_145' (first_responder) rerouted around debris.
+[Heartbeat t=4500s] Active relief vehicles: 6 | Queued: 25 | Undeliverable: 10
+[t=4503.0s] Dynamic Reroute: Vehicle 'ambulance_80' (ambulance) rerouted around debris.
+[t=4603.0s] Dynamic Reroute: Vehicle 'cargo_truck_118' (cargo_truck) rerouted around debris.
+[t=4667.0s] Dynamic Reroute: Vehicle 'ambulance_83' (ambulance) rerouted around debris.
+[t=4741.0s] Dynamic Reroute: Vehicle 'ambulance_85' (ambulance) rerouted around debris.
+[t=4755.0s] Dynamic Reroute: Vehicle 'cargo_truck_119' (cargo_truck) rerouted around debris.
+[t=4765.0s] Dynamic Reroute: Vehicle 'first_responder_146' (first_responder) rerouted around debris.
+[t=4815.0s] Dynamic Reroute: Vehicle 'ambulance_86' (ambulance) rerouted around debris.
+[t=4903.0s] Dynamic Reroute: Vehicle 'ambulance_88' (ambulance) rerouted around debris.
+[t=4957.0s] Dynamic Reroute: Vehicle 'ambulance_89' (ambulance) rerouted around debris.
+[t=5059.0s] Dynamic Reroute: Vehicle 'ambulance_90' (ambulance) rerouted around debris.
+[t=5094.0s] Dynamic Reroute: Vehicle 'ambulance_91' (ambulance) rerouted around debris.
+[t=5243.0s] Dynamic Reroute: Vehicle 'cargo_truck_121' (cargo_truck) rerouted around debris.
+[t=5267.0s] Dynamic Reroute: Vehicle 'first_responder_149' (first_responder) rerouted around debris.
+[t=5286.0s] Dynamic Reroute: Vehicle 'ambulance_94' (ambulance) rerouted around debris.
+[t=5314.0s] Dynamic Reroute: Vehicle 'ambulance_95' (ambulance) rerouted around debris.
+[Heartbeat t=5400s] Active relief vehicles: 5 | Queued: 0 | Undeliverable: 10
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 223.87s
+ TraCI-Duration: 211.07s
+ Real time factor: 24.1208
+ UPS: 1148.593176
+Vehicles:
+ Inserted: 1350
+ Running: 10
+ Waiting: 0
+ Teleports: 14 (Collisions: 5, Jam: 8, Yield: 1)
+ Emergency Braking: 23
+Statistics (avg of 1340):
+ RouteLength: 2245.95
+ Speed: 13.75
+ Duration: 181.61
+ WaitingTime: 13.16
+ TimeLoss: 47.16
+ DepartDelay: 0.06
+DijkstraRouter answered 41 queries and explored 1113.17 edges on average.
+DijkstraRouter spent 0.10s answering queries (2.46ms on average).
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 31
+ Unique Vehicles Rerouted:    31
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_42.xml
+=======================================================
+
+***Starting server on port 51282 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (443ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (2ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_42.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             STATIC BASELINE
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_42.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 0
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 8 | Queued: 99 | Undeliverable: 0
+[Heartbeat t=2700s] Active relief vehicles: 9 | Queued: 74 | Undeliverable: 0
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 5 | Queued: 50 | Undeliverable: 0
+[Heartbeat t=4500s] Active relief vehicles: 8 | Queued: 25 | Undeliverable: 0
+[Heartbeat t=5400s] Active relief vehicles: 11 | Queued: 0 | Undeliverable: 0
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 169.01s
+ TraCI-Duration: 156.66s
+ Real time factor: 31.951
+ UPS: 1620.535001
+Vehicles:
+ Inserted: 1350
+ Running: 20
+ Waiting: 0
+ Teleports: 41 (Collisions: 1, Jam: 39, Yield: 1)
+ Emergency Braking: 12
+Statistics (avg of 1330):
+ RouteLength: 2247.00
+ Speed: 12.82
+ Duration: 189.82
+ WaitingTime: 21.18
+ TimeLoss: 47.34
+ DepartDelay: 0.07
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 0
+ Unique Vehicles Rerouted:    0
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_42.xml
+=======================================================
+
+***Starting server on port 57297 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (458ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_101.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             DYNAMIC REROUTING
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_101.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[t=300.0s] UNDELIVERABLE: Vehicle 'ambulance_4' destination cut off! Removing from network.
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 1
+[t=922.0s] UNDELIVERABLE: Vehicle 'ambulance_16' destination cut off! Removing from network.
+[t=947.0s] UNDELIVERABLE: Vehicle 'first_responder_126' destination cut off! Removing from network.
+[t=1096.0s] UNDELIVERABLE: Vehicle 'cargo_truck_102' destination cut off! Removing from network.
+[t=1152.0s] UNDELIVERABLE: Vehicle 'ambulance_20' destination cut off! Removing from network.
+[t=1446.0s] UNDELIVERABLE: Vehicle 'ambulance_25' destination cut off! Removing from network.
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 6 | Queued: 99 | Undeliverable: 6
+[t=1845.0s] UNDELIVERABLE: Vehicle 'first_responder_131' destination cut off! Removing from network.
+[t=1931.0s] Dynamic Reroute: Vehicle 'ambulance_34' (ambulance) rerouted around debris.
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 7
+[t=3236.0s] UNDELIVERABLE: Vehicle 'ambulance_58' destination cut off! Removing from network.
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 4 | Queued: 50 | Undeliverable: 8
+[t=3618.0s] Dynamic Reroute: Vehicle 'ambulance_64' (ambulance) rerouted around debris.
+[t=3661.0s] Dynamic Reroute: Vehicle 'ambulance_65' (ambulance) rerouted around debris.
+[t=3689.0s] Dynamic Reroute: Vehicle 'cargo_truck_114' (cargo_truck) rerouted around debris.
+[t=3693.0s] Dynamic Reroute: Vehicle 'ambulance_66' (ambulance) rerouted around debris.
+[t=3697.0s] Dynamic Reroute: Vehicle 'first_responder_141' (first_responder) rerouted around debris.
+[t=3794.0s] UNDELIVERABLE: Vehicle 'ambulance_68' destination cut off! Removing from network.
+[t=3862.0s] Dynamic Reroute: Vehicle 'ambulance_69' (ambulance) rerouted around debris.
+[t=3911.0s] Dynamic Reroute: Vehicle 'ambulance_70' (ambulance) rerouted around debris.
+[t=3947.0s] UNDELIVERABLE: Vehicle 'cargo_truck_115' destination cut off! Removing from network.
+[t=4022.0s] Dynamic Reroute: Vehicle 'ambulance_72' (ambulance) rerouted around debris.
+[t=4202.0s] Dynamic Reroute: Vehicle 'first_responder_143' (first_responder) rerouted around debris.
+[t=4207.0s] Dynamic Reroute: Vehicle 'ambulance_75' (ambulance) rerouted around debris.
+[t=4264.0s] Dynamic Reroute: Vehicle 'ambulance_76' (ambulance) rerouted around debris.
+[t=4295.0s] Dynamic Reroute: Vehicle 'cargo_truck_116' (cargo_truck) rerouted around debris.
+[t=4356.0s] Dynamic Reroute: Vehicle 'cargo_truck_117' (cargo_truck) rerouted around debris.
+[t=4374.0s] Dynamic Reroute: Vehicle 'first_responder_144' (first_responder) rerouted around debris.
+[t=4485.0s] Dynamic Reroute: Vehicle 'first_responder_145' (first_responder) rerouted around debris.
+[Heartbeat t=4500s] Active relief vehicles: 6 | Queued: 25 | Undeliverable: 10
+[t=4503.0s] Dynamic Reroute: Vehicle 'ambulance_80' (ambulance) rerouted around debris.
+[t=4603.0s] Dynamic Reroute: Vehicle 'cargo_truck_118' (cargo_truck) rerouted around debris.
+[t=4667.0s] Dynamic Reroute: Vehicle 'ambulance_83' (ambulance) rerouted around debris.
+[t=4741.0s] Dynamic Reroute: Vehicle 'ambulance_85' (ambulance) rerouted around debris.
+[t=4755.0s] Dynamic Reroute: Vehicle 'cargo_truck_119' (cargo_truck) rerouted around debris.
+[t=4765.0s] Dynamic Reroute: Vehicle 'first_responder_146' (first_responder) rerouted around debris.
+[t=4815.0s] Dynamic Reroute: Vehicle 'ambulance_86' (ambulance) rerouted around debris.
+[t=4903.0s] Dynamic Reroute: Vehicle 'ambulance_88' (ambulance) rerouted around debris.
+[t=4957.0s] Dynamic Reroute: Vehicle 'ambulance_89' (ambulance) rerouted around debris.
+[t=5059.0s] Dynamic Reroute: Vehicle 'ambulance_90' (ambulance) rerouted around debris.
+[t=5094.0s] Dynamic Reroute: Vehicle 'ambulance_91' (ambulance) rerouted around debris.
+[t=5243.0s] Dynamic Reroute: Vehicle 'cargo_truck_121' (cargo_truck) rerouted around debris.
+[t=5267.0s] Dynamic Reroute: Vehicle 'first_responder_149' (first_responder) rerouted around debris.
+[t=5286.0s] Dynamic Reroute: Vehicle 'ambulance_94' (ambulance) rerouted around debris.
+[t=5314.0s] Dynamic Reroute: Vehicle 'ambulance_95' (ambulance) rerouted around debris.
+[Heartbeat t=5400s] Active relief vehicles: 5 | Queued: 0 | Undeliverable: 10
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 213.20s
+ TraCI-Duration: 202.04s
+ Real time factor: 25.3289
+ UPS: 1244.091090
+Vehicles:
+ Inserted: 1350
+ Running: 11
+ Waiting: 0
+ Teleports: 11 (Collisions: 2, Jam: 8, Yield: 1)
+ Emergency Braking: 26
+Statistics (avg of 1339):
+ RouteLength: 2258.95
+ Speed: 13.70
+ Duration: 185.66
+ WaitingTime: 15.10
+ TimeLoss: 47.08
+ DepartDelay: 0.06
+DijkstraRouter answered 41 queries and explored 1113.17 edges on average.
+DijkstraRouter spent 0.10s answering queries (2.37ms on average).
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 31
+ Unique Vehicles Rerouted:    31
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_101.xml
+=======================================================
+
+***Starting server on port 59794 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (421ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_101.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             STATIC BASELINE
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_101.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 0
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 7 | Queued: 99 | Undeliverable: 0
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 0
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 5 | Queued: 50 | Undeliverable: 0
+[Heartbeat t=4500s] Active relief vehicles: 8 | Queued: 25 | Undeliverable: 0
+[Heartbeat t=5400s] Active relief vehicles: 9 | Queued: 1 | Undeliverable: 0
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 162.66s
+ TraCI-Duration: 150.91s
+ Real time factor: 33.1977
+ UPS: 1705.493600
+Vehicles:
+ Inserted: 1349
+ Running: 19
+ Waiting: 0
+ Teleports: 40 (Jam: 39, Yield: 1)
+ Emergency Braking: 23
+Statistics (avg of 1330):
+ RouteLength: 2260.70
+ Speed: 12.77
+ Duration: 192.85
+ WaitingTime: 22.39
+ TimeLoss: 47.62
+ DepartDelay: 0.07
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 0
+ Unique Vehicles Rerouted:    0
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_101.xml
+=======================================================
+
+***Starting server on port 49262 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (468ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (2ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_202.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             DYNAMIC REROUTING
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_202.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[t=300.0s] UNDELIVERABLE: Vehicle 'ambulance_4' destination cut off! Removing from network.
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 1
+[t=922.0s] UNDELIVERABLE: Vehicle 'ambulance_16' destination cut off! Removing from network.
+[t=947.0s] UNDELIVERABLE: Vehicle 'first_responder_126' destination cut off! Removing from network.
+[t=1096.0s] UNDELIVERABLE: Vehicle 'cargo_truck_102' destination cut off! Removing from network.
+[t=1152.0s] UNDELIVERABLE: Vehicle 'ambulance_20' destination cut off! Removing from network.
+[t=1445.0s] UNDELIVERABLE: Vehicle 'ambulance_25' destination cut off! Removing from network.
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 7 | Queued: 99 | Undeliverable: 6
+[t=1845.0s] UNDELIVERABLE: Vehicle 'first_responder_131' destination cut off! Removing from network.
+[t=1931.0s] Dynamic Reroute: Vehicle 'ambulance_34' (ambulance) rerouted around debris.
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 7
+[t=3236.0s] UNDELIVERABLE: Vehicle 'ambulance_58' destination cut off! Removing from network.
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 4 | Queued: 50 | Undeliverable: 8
+[t=3618.0s] Dynamic Reroute: Vehicle 'ambulance_64' (ambulance) rerouted around debris.
+[t=3661.0s] Dynamic Reroute: Vehicle 'ambulance_65' (ambulance) rerouted around debris.
+[t=3689.0s] Dynamic Reroute: Vehicle 'cargo_truck_114' (cargo_truck) rerouted around debris.
+[t=3693.0s] Dynamic Reroute: Vehicle 'ambulance_66' (ambulance) rerouted around debris.
+[t=3697.0s] Dynamic Reroute: Vehicle 'first_responder_141' (first_responder) rerouted around debris.
+[t=3794.0s] UNDELIVERABLE: Vehicle 'ambulance_68' destination cut off! Removing from network.
+[t=3862.0s] Dynamic Reroute: Vehicle 'ambulance_69' (ambulance) rerouted around debris.
+[t=3911.0s] Dynamic Reroute: Vehicle 'ambulance_70' (ambulance) rerouted around debris.
+[t=3947.0s] UNDELIVERABLE: Vehicle 'cargo_truck_115' destination cut off! Removing from network.
+[t=4022.0s] Dynamic Reroute: Vehicle 'ambulance_72' (ambulance) rerouted around debris.
+[t=4202.0s] Dynamic Reroute: Vehicle 'first_responder_143' (first_responder) rerouted around debris.
+[t=4207.0s] Dynamic Reroute: Vehicle 'ambulance_75' (ambulance) rerouted around debris.
+[t=4264.0s] Dynamic Reroute: Vehicle 'ambulance_76' (ambulance) rerouted around debris.
+[t=4295.0s] Dynamic Reroute: Vehicle 'cargo_truck_116' (cargo_truck) rerouted around debris.
+[t=4356.0s] Dynamic Reroute: Vehicle 'cargo_truck_117' (cargo_truck) rerouted around debris.
+[t=4374.0s] Dynamic Reroute: Vehicle 'first_responder_144' (first_responder) rerouted around debris.
+[t=4485.0s] Dynamic Reroute: Vehicle 'first_responder_145' (first_responder) rerouted around debris.
+[Heartbeat t=4500s] Active relief vehicles: 6 | Queued: 25 | Undeliverable: 10
+[t=4503.0s] Dynamic Reroute: Vehicle 'ambulance_80' (ambulance) rerouted around debris.
+[t=4603.0s] Dynamic Reroute: Vehicle 'cargo_truck_118' (cargo_truck) rerouted around debris.
+[t=4667.0s] Dynamic Reroute: Vehicle 'ambulance_83' (ambulance) rerouted around debris.
+[t=4741.0s] Dynamic Reroute: Vehicle 'ambulance_85' (ambulance) rerouted around debris.
+[t=4755.0s] Dynamic Reroute: Vehicle 'cargo_truck_119' (cargo_truck) rerouted around debris.
+[t=4765.0s] Dynamic Reroute: Vehicle 'first_responder_146' (first_responder) rerouted around debris.
+[t=4815.0s] Dynamic Reroute: Vehicle 'ambulance_86' (ambulance) rerouted around debris.
+[t=4903.0s] Dynamic Reroute: Vehicle 'ambulance_88' (ambulance) rerouted around debris.
+[t=4957.0s] Dynamic Reroute: Vehicle 'ambulance_89' (ambulance) rerouted around debris.
+[t=5059.0s] Dynamic Reroute: Vehicle 'ambulance_90' (ambulance) rerouted around debris.
+[t=5094.0s] Dynamic Reroute: Vehicle 'ambulance_91' (ambulance) rerouted around debris.
+[t=5243.0s] Dynamic Reroute: Vehicle 'cargo_truck_121' (cargo_truck) rerouted around debris.
+[t=5267.0s] Dynamic Reroute: Vehicle 'first_responder_149' (first_responder) rerouted around debris.
+[t=5286.0s] Dynamic Reroute: Vehicle 'ambulance_94' (ambulance) rerouted around debris.
+[t=5314.0s] Dynamic Reroute: Vehicle 'ambulance_95' (ambulance) rerouted around debris.
+[Heartbeat t=5400s] Active relief vehicles: 5 | Queued: 0 | Undeliverable: 10
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 227.04s
+ TraCI-Duration: 215.34s
+ Real time factor: 23.7846
+ UPS: 1199.759512
+Vehicles:
+ Inserted: 1350
+ Running: 15
+ Waiting: 0
+ Teleports: 12 (Collisions: 2, Jam: 9, Yield: 1)
+ Emergency Braking: 15
+Statistics (avg of 1335):
+ RouteLength: 2214.17
+ Speed: 13.68
+ Duration: 181.84
+ WaitingTime: 14.68
+ TimeLoss: 46.41
+ DepartDelay: 0.04
+DijkstraRouter answered 41 queries and explored 1114.20 edges on average.
+DijkstraRouter spent 0.11s answering queries (2.59ms on average).
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 31
+ Unique Vehicles Rerouted:    31
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_202.xml
+=======================================================
+
+***Starting server on port 51591 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (433ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_202.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             STATIC BASELINE
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_202.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 0
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 8 | Queued: 99 | Undeliverable: 0
+[Heartbeat t=2700s] Active relief vehicles: 9 | Queued: 74 | Undeliverable: 0
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 6 | Queued: 50 | Undeliverable: 0
+[Heartbeat t=4500s] Active relief vehicles: 9 | Queued: 25 | Undeliverable: 0
+[Heartbeat t=5400s] Active relief vehicles: 9 | Queued: 3 | Undeliverable: 0
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 180.53s
+ TraCI-Duration: 167.64s
+ Real time factor: 29.9123
+ UPS: 1598.704910
+Vehicles:
+ Inserted: 1347
+ Running: 22
+ Waiting: 0
+ Teleports: 45 (Collisions: 4, Jam: 40, Yield: 1)
+ Emergency Braking: 13
+Statistics (avg of 1325):
+ RouteLength: 2215.03
+ Speed: 12.73
+ Duration: 188.65
+ WaitingTime: 21.66
+ TimeLoss: 47.17
+ DepartDelay: 0.07
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 0
+ Unique Vehicles Rerouted:    0
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_202.xml
+=======================================================
+
+***Starting server on port 55035 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (475ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_303.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             DYNAMIC REROUTING
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_303.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[t=300.0s] UNDELIVERABLE: Vehicle 'ambulance_4' destination cut off! Removing from network.
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 1
+[t=922.0s] UNDELIVERABLE: Vehicle 'ambulance_16' destination cut off! Removing from network.
+[t=947.0s] UNDELIVERABLE: Vehicle 'first_responder_126' destination cut off! Removing from network.
+[t=1096.0s] UNDELIVERABLE: Vehicle 'cargo_truck_102' destination cut off! Removing from network.
+[t=1152.0s] UNDELIVERABLE: Vehicle 'ambulance_20' destination cut off! Removing from network.
+[t=1445.0s] UNDELIVERABLE: Vehicle 'ambulance_25' destination cut off! Removing from network.
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 7 | Queued: 99 | Undeliverable: 6
+[t=1845.0s] UNDELIVERABLE: Vehicle 'first_responder_131' destination cut off! Removing from network.
+[t=1931.0s] Dynamic Reroute: Vehicle 'ambulance_34' (ambulance) rerouted around debris.
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 7
+[t=3236.0s] UNDELIVERABLE: Vehicle 'ambulance_58' destination cut off! Removing from network.
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 4 | Queued: 50 | Undeliverable: 8
+[t=3618.0s] Dynamic Reroute: Vehicle 'ambulance_64' (ambulance) rerouted around debris.
+[t=3661.0s] Dynamic Reroute: Vehicle 'ambulance_65' (ambulance) rerouted around debris.
+[t=3689.0s] Dynamic Reroute: Vehicle 'cargo_truck_114' (cargo_truck) rerouted around debris.
+[t=3693.0s] Dynamic Reroute: Vehicle 'ambulance_66' (ambulance) rerouted around debris.
+[t=3697.0s] Dynamic Reroute: Vehicle 'first_responder_141' (first_responder) rerouted around debris.
+[t=3794.0s] UNDELIVERABLE: Vehicle 'ambulance_68' destination cut off! Removing from network.
+[t=3862.0s] Dynamic Reroute: Vehicle 'ambulance_69' (ambulance) rerouted around debris.
+[t=3911.0s] Dynamic Reroute: Vehicle 'ambulance_70' (ambulance) rerouted around debris.
+[t=3947.0s] UNDELIVERABLE: Vehicle 'cargo_truck_115' destination cut off! Removing from network.
+[t=4022.0s] Dynamic Reroute: Vehicle 'ambulance_72' (ambulance) rerouted around debris.
+[t=4202.0s] Dynamic Reroute: Vehicle 'first_responder_143' (first_responder) rerouted around debris.
+[t=4207.0s] Dynamic Reroute: Vehicle 'ambulance_75' (ambulance) rerouted around debris.
+[t=4264.0s] Dynamic Reroute: Vehicle 'ambulance_76' (ambulance) rerouted around debris.
+[t=4295.0s] Dynamic Reroute: Vehicle 'cargo_truck_116' (cargo_truck) rerouted around debris.
+[t=4356.0s] Dynamic Reroute: Vehicle 'cargo_truck_117' (cargo_truck) rerouted around debris.
+[t=4374.0s] Dynamic Reroute: Vehicle 'first_responder_144' (first_responder) rerouted around debris.
+[t=4485.0s] Dynamic Reroute: Vehicle 'first_responder_145' (first_responder) rerouted around debris.
+[Heartbeat t=4500s] Active relief vehicles: 6 | Queued: 25 | Undeliverable: 10
+[t=4503.0s] Dynamic Reroute: Vehicle 'ambulance_80' (ambulance) rerouted around debris.
+[t=4603.0s] Dynamic Reroute: Vehicle 'cargo_truck_118' (cargo_truck) rerouted around debris.
+[t=4667.0s] Dynamic Reroute: Vehicle 'ambulance_83' (ambulance) rerouted around debris.
+[t=4741.0s] Dynamic Reroute: Vehicle 'ambulance_85' (ambulance) rerouted around debris.
+[t=4755.0s] Dynamic Reroute: Vehicle 'cargo_truck_119' (cargo_truck) rerouted around debris.
+[t=4765.0s] Dynamic Reroute: Vehicle 'first_responder_146' (first_responder) rerouted around debris.
+[t=4815.0s] Dynamic Reroute: Vehicle 'ambulance_86' (ambulance) rerouted around debris.
+[t=4903.0s] Dynamic Reroute: Vehicle 'ambulance_88' (ambulance) rerouted around debris.
+[t=4957.0s] Dynamic Reroute: Vehicle 'ambulance_89' (ambulance) rerouted around debris.
+[t=5059.0s] Dynamic Reroute: Vehicle 'ambulance_90' (ambulance) rerouted around debris.
+[t=5094.0s] Dynamic Reroute: Vehicle 'ambulance_91' (ambulance) rerouted around debris.
+[t=5243.0s] Dynamic Reroute: Vehicle 'cargo_truck_121' (cargo_truck) rerouted around debris.
+[t=5267.0s] Dynamic Reroute: Vehicle 'first_responder_149' (first_responder) rerouted around debris.
+[t=5286.0s] Dynamic Reroute: Vehicle 'ambulance_94' (ambulance) rerouted around debris.
+[t=5314.0s] Dynamic Reroute: Vehicle 'ambulance_95' (ambulance) rerouted around debris.
+[Heartbeat t=5400s] Active relief vehicles: 5 | Queued: 0 | Undeliverable: 10
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 213.12s
+ TraCI-Duration: 201.68s
+ Real time factor: 25.3378
+ UPS: 1182.535661
+Vehicles:
+ Inserted: 1350
+ Running: 9
+ Waiting: 0
+ Teleports: 7 (Collisions: 1, Jam: 6)
+ Emergency Braking: 14
+Statistics (avg of 1341):
+ RouteLength: 2242.91
+ Speed: 13.83
+ Duration: 179.35
+ WaitingTime: 12.90
+ TimeLoss: 45.68
+ DepartDelay: 0.06
+DijkstraRouter answered 41 queries and explored 1111.88 edges on average.
+DijkstraRouter spent 0.10s answering queries (2.41ms on average).
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 31
+ Unique Vehicles Rerouted:    31
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_303.xml
+=======================================================
+
+***Starting server on port 49165 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (447ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_303.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             STATIC BASELINE
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_303.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[Heartbeat t=900s] Active relief vehicles: 5 | Queued: 126 | Undeliverable: 0
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 9 | Queued: 99 | Undeliverable: 0
+[Heartbeat t=2700s] Active relief vehicles: 9 | Queued: 74 | Undeliverable: 0
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 5 | Queued: 50 | Undeliverable: 0
+[Heartbeat t=4500s] Active relief vehicles: 10 | Queued: 25 | Undeliverable: 0
+[Heartbeat t=5400s] Active relief vehicles: 9 | Queued: 1 | Undeliverable: 0
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 158.19s
+ TraCI-Duration: 146.69s
+ Real time factor: 34.1353
+ UPS: 1833.166871
+Vehicles:
+ Inserted: 1349
+ Running: 18
+ Waiting: 0
+ Teleports: 45 (Collisions: 4, Jam: 34, Yield: 7)
+ Emergency Braking: 15
+Statistics (avg of 1331):
+ RouteLength: 2244.52
+ Speed: 12.59
+ Duration: 203.60
+ WaitingTime: 36.36
+ TimeLoss: 59.36
+ DepartDelay: 0.05
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 0
+ Unique Vehicles Rerouted:    0
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_303.xml
+=======================================================
+
+***Starting server on port 59650 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (434ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_404.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             DYNAMIC REROUTING
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_404.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[t=300.0s] UNDELIVERABLE: Vehicle 'ambulance_4' destination cut off! Removing from network.
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 1
+[t=922.0s] UNDELIVERABLE: Vehicle 'ambulance_16' destination cut off! Removing from network.
+[t=947.0s] UNDELIVERABLE: Vehicle 'first_responder_126' destination cut off! Removing from network.
+[t=1096.0s] UNDELIVERABLE: Vehicle 'cargo_truck_102' destination cut off! Removing from network.
+[t=1152.0s] UNDELIVERABLE: Vehicle 'ambulance_20' destination cut off! Removing from network.
+[t=1445.0s] UNDELIVERABLE: Vehicle 'ambulance_25' destination cut off! Removing from network.
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 7 | Queued: 99 | Undeliverable: 6
+[t=1845.0s] UNDELIVERABLE: Vehicle 'first_responder_131' destination cut off! Removing from network.
+[t=1931.0s] Dynamic Reroute: Vehicle 'ambulance_34' (ambulance) rerouted around debris.
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 7
+[t=3235.0s] UNDELIVERABLE: Vehicle 'ambulance_58' destination cut off! Removing from network.
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 4 | Queued: 50 | Undeliverable: 8
+[t=3618.0s] Dynamic Reroute: Vehicle 'ambulance_64' (ambulance) rerouted around debris.
+[t=3661.0s] Dynamic Reroute: Vehicle 'ambulance_65' (ambulance) rerouted around debris.
+[t=3689.0s] Dynamic Reroute: Vehicle 'cargo_truck_114' (cargo_truck) rerouted around debris.
+[t=3693.0s] Dynamic Reroute: Vehicle 'ambulance_66' (ambulance) rerouted around debris.
+[t=3697.0s] Dynamic Reroute: Vehicle 'first_responder_141' (first_responder) rerouted around debris.
+[t=3794.0s] UNDELIVERABLE: Vehicle 'ambulance_68' destination cut off! Removing from network.
+[t=3862.0s] Dynamic Reroute: Vehicle 'ambulance_69' (ambulance) rerouted around debris.
+[t=3911.0s] Dynamic Reroute: Vehicle 'ambulance_70' (ambulance) rerouted around debris.
+[t=3947.0s] UNDELIVERABLE: Vehicle 'cargo_truck_115' destination cut off! Removing from network.
+[t=4022.0s] Dynamic Reroute: Vehicle 'ambulance_72' (ambulance) rerouted around debris.
+[t=4202.0s] Dynamic Reroute: Vehicle 'first_responder_143' (first_responder) rerouted around debris.
+[t=4207.0s] Dynamic Reroute: Vehicle 'ambulance_75' (ambulance) rerouted around debris.
+[t=4264.0s] Dynamic Reroute: Vehicle 'ambulance_76' (ambulance) rerouted around debris.
+[t=4295.0s] Dynamic Reroute: Vehicle 'cargo_truck_116' (cargo_truck) rerouted around debris.
+[t=4356.0s] Dynamic Reroute: Vehicle 'cargo_truck_117' (cargo_truck) rerouted around debris.
+[t=4374.0s] Dynamic Reroute: Vehicle 'first_responder_144' (first_responder) rerouted around debris.
+[t=4485.0s] Dynamic Reroute: Vehicle 'first_responder_145' (first_responder) rerouted around debris.
+[Heartbeat t=4500s] Active relief vehicles: 6 | Queued: 25 | Undeliverable: 10
+[t=4503.0s] Dynamic Reroute: Vehicle 'ambulance_80' (ambulance) rerouted around debris.
+[t=4603.0s] Dynamic Reroute: Vehicle 'cargo_truck_118' (cargo_truck) rerouted around debris.
+[t=4667.0s] Dynamic Reroute: Vehicle 'ambulance_83' (ambulance) rerouted around debris.
+[t=4741.0s] Dynamic Reroute: Vehicle 'ambulance_85' (ambulance) rerouted around debris.
+[t=4755.0s] Dynamic Reroute: Vehicle 'cargo_truck_119' (cargo_truck) rerouted around debris.
+[t=4765.0s] Dynamic Reroute: Vehicle 'first_responder_146' (first_responder) rerouted around debris.
+[t=4815.0s] Dynamic Reroute: Vehicle 'ambulance_86' (ambulance) rerouted around debris.
+[t=4903.0s] Dynamic Reroute: Vehicle 'ambulance_88' (ambulance) rerouted around debris.
+[t=4957.0s] Dynamic Reroute: Vehicle 'ambulance_89' (ambulance) rerouted around debris.
+[t=5059.0s] Dynamic Reroute: Vehicle 'ambulance_90' (ambulance) rerouted around debris.
+[t=5094.0s] Dynamic Reroute: Vehicle 'ambulance_91' (ambulance) rerouted around debris.
+[t=5243.0s] Dynamic Reroute: Vehicle 'cargo_truck_121' (cargo_truck) rerouted around debris.
+[t=5267.0s] Dynamic Reroute: Vehicle 'first_responder_149' (first_responder) rerouted around debris.
+[t=5286.0s] Dynamic Reroute: Vehicle 'ambulance_94' (ambulance) rerouted around debris.
+[t=5314.0s] Dynamic Reroute: Vehicle 'ambulance_95' (ambulance) rerouted around debris.
+[Heartbeat t=5400s] Active relief vehicles: 5 | Queued: 0 | Undeliverable: 10
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 181.18s
+ TraCI-Duration: 171.62s
+ Real time factor: 29.8041
+ UPS: 1435.973574
+Vehicles:
+ Inserted: 1350
+ Running: 14
+ Waiting: 0
+ Teleports: 14 (Collisions: 6, Jam: 7, Wrong Lane: 1)
+ Emergency Braking: 16
+Statistics (avg of 1336):
+ RouteLength: 2218.54
+ Speed: 13.68
+ Duration: 179.91
+ WaitingTime: 12.91
+ TimeLoss: 46.23
+ DepartDelay: 0.07
+DijkstraRouter answered 41 queries and explored 1112.12 edges on average.
+DijkstraRouter spent 0.08s answering queries (2.02ms on average).
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 31
+ Unique Vehicles Rerouted:    31
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_dynamic_404.xml
+=======================================================
+
+***Starting server on port 50981 ***
+Loading net-file from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml' ... done (411ms).
+Loading additional-files from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\vehicles\vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from 'D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_routes_404.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+
+=======================================================
+ Starting SUMO Simulation via TraCI
+ Mode:             STATIC BASELINE
+ GUI:              Disabled (Headless)
+ Tripinfo Output:  D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_404.xml
+=======================================================
+
+
+[t=300.0s] EARTHQUAKE DAMAGE EVENT: 'initial_quake_debris_t300'
+ Description: Immediate post-earthquake structural collapse and road blockage in central corridors
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351018906#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 172385226#0
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 1194719931
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172385226#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 172333281#0
+[Heartbeat t=900s] Active relief vehicles: 3 | Queued: 126 | Undeliverable: 0
+
+[t=1800.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t1800'
+ Description: Major aftershock causes secondary building collapse and blocked access routes
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 344347487
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 422272357#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: -172333281#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 231880678#0
+[Heartbeat t=1800s] Active relief vehicles: 8 | Queued: 99 | Undeliverable: 0
+[Heartbeat t=2700s] Active relief vehicles: 6 | Queued: 74 | Undeliverable: 0
+
+[t=3600.0s] EARTHQUAKE DAMAGE EVENT: 'aftershock_debris_t3600'
+ Description: Secondary debris accumulation blocking peripheral access roads
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 351926855#2-AddedOffRampEdge
+   --> Edge FULLY BLOCKED / RUBBLE RESTRICTION: 169336486#1
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 185939504#0
+   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: 58472906#0
+[Heartbeat t=3600s] Active relief vehicles: 5 | Queued: 50 | Undeliverable: 0
+[Heartbeat t=4500s] Active relief vehicles: 9 | Queued: 25 | Undeliverable: 0
+[Heartbeat t=5400s] Active relief vehicles: 10 | Queued: 3 | Undeliverable: 0
+Simulation ended at time: 5400.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 143.27s
+ TraCI-Duration: 133.24s
+ Real time factor: 37.6924
+ UPS: 1935.469235
+Vehicles:
+ Inserted: 1347
+ Running: 23
+ Waiting: 0
+ Teleports: 43 (Collisions: 2, Jam: 39, Wrong Lane: 2)
+ Emergency Braking: 19
+Statistics (avg of 1324):
+ RouteLength: 2218.94
+ Speed: 12.73
+ Duration: 187.64
+ WaitingTime: 20.74
+ TimeLoss: 47.41
+ DepartDelay: 0.06
+
+=======================================================
+ Simulation Finished at t=5400.0s
+ Total Reroute Interventions: 0
+ Unique Vehicles Rerouted:    0
+ Trip statistics saved to:    D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\output\tripinfo_static_404.xml
+=======================================================
+
+Starting statistical replication across 5 random seeds...
+
+=======================================
+ REPLICATION RUN: SEED 42
+=======================================
+Generating stochastic background traffic...
+
+Running Dynamic TraCI Simulation...
+
+Running Static Baseline Simulation...
+
+Evaluating results...
+[Seed 42] Dynamic - Fulfillment: 94.0%, Avg Duration: 163.3s
+[Seed 42] Static  - Fulfillment: 72.0%, Avg Duration: 241.3s
+
+=======================================
+ REPLICATION RUN: SEED 101
+=======================================
+Generating stochastic background traffic...
+
+Running Dynamic TraCI Simulation...
+
+Running Static Baseline Simulation...
+
+Evaluating results...
+[Seed 101] Dynamic - Fulfillment: 96.0%, Avg Duration: 156.0s
+[Seed 101] Static  - Fulfillment: 71.3%, Avg Duration: 223.6s
+
+=======================================
+ REPLICATION RUN: SEED 202
+=======================================
+Generating stochastic background traffic...
+
+Running Dynamic TraCI Simulation...
+
+Running Static Baseline Simulation...
+
+Evaluating results...
+[Seed 202] Dynamic - Fulfillment: 96.7%, Avg Duration: 155.9s
+[Seed 202] Static  - Fulfillment: 71.3%, Avg Duration: 218.2s
+
+=======================================
+ REPLICATION RUN: SEED 303
+=======================================
+Generating stochastic background traffic...
+
+Running Dynamic TraCI Simulation...
+
+Running Static Baseline Simulation...
+
+Evaluating results...
+[Seed 303] Dynamic - Fulfillment: 96.7%, Avg Duration: 155.2s
+[Seed 303] Static  - Fulfillment: 68.0%, Avg Duration: 286.7s
+
+=======================================
+ REPLICATION RUN: SEED 404
+=======================================
+Generating stochastic background traffic...
+
+Running Dynamic TraCI Simulation...
+
+Running Static Baseline Simulation...
+
+Evaluating results...
+[Seed 404] Dynamic - Fulfillment: 96.0%, Avg Duration: 155.2s
+[Seed 404] Static  - Fulfillment: 71.3%, Avg Duration: 231.9s
+
+
+==================================================
+ STATISTICAL REPLICATION SUMMARY (N=5)
+==================================================
+
+--- DYNAMIC MODE ---
+ fulfillment_rate_pct          : Mean =    95.87  |  StdDev =   0.98
+ avg_duration_sec              : Mean =   157.13  |  StdDev =   3.09
+ avg_waiting_time_sec          : Mean =     2.83  |  StdDev =   2.90
+ uncompleted_or_stranded       : Mean =     5.00  |  StdDev =   0.00
+
+--- STATIC MODE ---
+ fulfillment_rate_pct          : Mean =    70.80  |  StdDev =   1.42
+ avg_duration_sec              : Mean =   240.33  |  StdDev =  24.46
+ avg_waiting_time_sec          : Mean =    87.27  |  StdDev =  24.03
+ uncompleted_or_stranded       : Mean =    15.20  |  StdDev =   0.40
+
+--- COMPARATIVE EFFICIENCY (DYNAMIC VS STATIC) ---
+ Fulfillment Rate Gain      : Mean = +25.07%  |  StdDev = 2.13%
+ Delivery Time Saved (sec)  : Mean = +83.20s  |  StdDev = 24.81s

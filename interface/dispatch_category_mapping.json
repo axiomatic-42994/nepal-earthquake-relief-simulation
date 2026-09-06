@@ -1,0 +1,17 @@
+{
+    "_description": "Mapping of canonical NLP output classes to TraCI dispatch categories",
+    "mapping": {
+        "injured_or_dead_people": "ambulance",
+        "missing_and_found_people": "first_responder",
+        "displaced_and_evacuations": "cargo_truck",
+        "requests_or_needs": "cargo_truck",
+        "infrastructure_and_utilities_damage": "road_damage_signal",
+        "caution_and_advice": "no_dispatch",
+        "donation_and_volunteering": "no_dispatch",
+        "not_humanitarian": "no_dispatch",
+        "other_relevant_information": "no_dispatch",
+        "personal_update": "no_dispatch",
+        "response_efforts": "no_dispatch",
+        "sympathy_and_support": "no_dispatch"
+    }
+}

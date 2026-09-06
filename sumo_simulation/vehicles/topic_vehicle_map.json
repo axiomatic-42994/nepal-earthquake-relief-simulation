@@ -1,0 +1,52 @@
+{
+    "_description": "Mapping from NMF ground-truth class labels to SUMO vehicle types. Updated for real NMF output (Part C). The 12 canonical mapped_ground_truth_class values from topic_schema.json are mapped to dispatch_category values.",
+    "_version": "2.0",
+    "_last_updated": "2026-09-06",
+    "_source": "Part C finalized mapping, approved against topic_schema.json keywords and representative tweets",
+
+    "mappings": [
+        {
+            "mapped_ground_truth_class": "injured_or_dead_people",
+            "dispatch_category": "ambulance",
+            "sumo_vtype": "ambulance",
+            "description": "Casualty reports, death tolls, injury updates — dispatched as emergency ambulances",
+            "priority": "emergency",
+            "topic_ids": [7, 21]
+        },
+        {
+            "mapped_ground_truth_class": "missing_and_found_people",
+            "dispatch_category": "first_responder",
+            "sumo_vtype": "first_responder",
+            "description": "Missing persons searches, family reunification — dispatched as first responder teams",
+            "priority": "emergency",
+            "topic_ids": [20, 27]
+        },
+        {
+            "mapped_ground_truth_class": "displaced_and_evacuations",
+            "dispatch_category": "cargo_truck",
+            "sumo_vtype": "cargo_truck",
+            "description": "Displacement, evacuation logistics, shelter needs — dispatched as cargo trucks",
+            "priority": "standard",
+            "topic_ids": [8, 11]
+        },
+        {
+            "mapped_ground_truth_class": "requests_or_needs",
+            "dispatch_category": "cargo_truck",
+            "sumo_vtype": "cargo_truck",
+            "description": "Requests for supplies or needs — dispatched as cargo trucks",
+            "priority": "standard",
+            "topic_ids": []
+        }
+    ],
+
+    "no_dispatch_classes": [
+        {"mapped_ground_truth_class": "response_efforts", "reason": "Not actionable directly"},
+        {"mapped_ground_truth_class": "donation_and_volunteering", "reason": "Supply-side signal, not a dispatch request"},
+        {"mapped_ground_truth_class": "caution_and_advice", "reason": "Informational content"},
+        {"mapped_ground_truth_class": "sympathy_and_support", "reason": "Not actionable — 15/30 topics, dominates raw counts"},
+        {"mapped_ground_truth_class": "not_humanitarian", "reason": "Filtered out"},
+        {"mapped_ground_truth_class": "other_relevant_information", "reason": "Too ambiguous (0 topics mapped)"},
+        {"mapped_ground_truth_class": "personal_update", "reason": "Not actionable (0 topics mapped)"},
+        {"mapped_ground_truth_class": "infrastructure_and_utilities_damage", "reason": "Mapped to road_damage_signal"}
+    ]
+}

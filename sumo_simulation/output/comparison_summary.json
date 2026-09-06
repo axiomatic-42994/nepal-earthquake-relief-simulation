@@ -1,0 +1,83 @@
+{
+    "scenario": "2015 Nepal Earthquake Kathmandu Relief Simulation",
+    "metrics": {
+        "dynamic_rerouting": {
+            "total_expected": 150,
+            "completed": 145,
+            "uncompleted_or_stranded": 5,
+            "completion_rate_pct": 96.66666666666667,
+            "fulfilled_within_threshold": 142,
+            "fulfillment_rate_pct": 94.66666666666667,
+            "threshold_seconds": 300.0,
+            "avg_duration_sec": 161.6206896551724,
+            "std_duration_sec": 80.1227565905112,
+            "median_duration_sec": 164.0,
+            "avg_waiting_time_sec": 6.641379310344828,
+            "avg_time_loss_sec": 35.53586206896552,
+            "avg_route_length_km": 2.3126649655172415,
+            "by_vehicle_type": {
+                "ambulance": {
+                    "completed_count": 94,
+                    "avg_duration": 154.17021276595744,
+                    "avg_waiting": 5.0,
+                    "avg_timeLoss": 31.52776595744681
+                },
+                "first_responder": {
+                    "completed_count": 27,
+                    "avg_duration": 163.77777777777777,
+                    "avg_waiting": 1.2962962962962963,
+                    "avg_timeLoss": 23.99481481481482
+                },
+                "cargo_truck": {
+                    "completed_count": 24,
+                    "avg_duration": 188.375,
+                    "avg_waiting": 19.083333333333332,
+                    "avg_timeLoss": 64.21791666666667
+                }
+            }
+        },
+        "static_baseline": {
+            "total_expected": 150,
+            "completed": 128,
+            "uncompleted_or_stranded": 22,
+            "completion_rate_pct": 85.33333333333334,
+            "fulfilled_within_threshold": 103,
+            "fulfillment_rate_pct": 68.66666666666667,
+            "threshold_seconds": 300.0,
+            "avg_duration_sec": 248.0078125,
+            "std_duration_sec": 256.3783366461855,
+            "median_duration_sec": 166.5,
+            "avg_waiting_time_sec": 94.3203125,
+            "avg_time_loss_sec": 42.515078124999995,
+            "avg_route_length_km": 2.3416303906250002,
+            "by_vehicle_type": {
+                "ambulance": {
+                    "completed_count": 83,
+                    "avg_duration": 241.57831325301206,
+                    "avg_waiting": 95.63855421686748,
+                    "avg_timeLoss": 40.31939759036144
+                },
+                "first_responder": {
+                    "completed_count": 25,
+                    "avg_duration": 247.96,
+                    "avg_waiting": 82.68,
+                    "avg_timeLoss": 30.632800000000003
+                },
+                "cargo_truck": {
+                    "completed_count": 20,
+                    "avg_duration": 274.75,
+                    "avg_waiting": 103.4,
+                    "avg_timeLoss": 66.47999999999999
+                }
+            }
+        },
+        "comparative_deltas": {
+            "avg_duration_saved_seconds": 86.38712284482759,
+            "avg_duration_improvement_pct": 34.83241998468399,
+            "avg_waiting_reduction_seconds": 87.67893318965517,
+            "avg_waiting_reduction_pct": 92.95869666425794,
+            "fulfillment_rate_gain_pct": 26.0,
+            "stranded_vehicles_prevented": 17
+        }
+    }
+}

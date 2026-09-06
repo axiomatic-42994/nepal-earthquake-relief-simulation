@@ -1,0 +1,8 @@
+# Nepal Earthquake SUMO/TraCI Simulation — Python Dependencies
+# SUMO 1.27.1 must be installed separately; traci and sumolib are bundled with it.
+# Set SUMO_HOME environment variable to your SUMO installation directory.
+
+numpy==2.4.1
+pandas==2.3.3
+matplotlib==3.10.8
+seaborn==0.13.2

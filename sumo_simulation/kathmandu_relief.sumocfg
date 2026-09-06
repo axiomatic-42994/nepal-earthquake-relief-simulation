@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- SUMO Configuration for Nepal Earthquake 2015 Kathmandu Relief Simulation -->
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="network/kathmandu.net.xml"/>
+        <route-files value="demand/relief_vehicles_routed.rou.xml,demand/background_routes.rou.xml"/>
+        <additional-files value="vehicles/vtypes.add.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end value="5400"/>
+        <step-length value="1.0"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.8"/>
+        <ignore-route-errors value="true"/>
+        <time-to-teleport value="300"/>
+    </processing>
+
+    <gui_only>
+        <gui-settings-file value=""/>
+        <start value="true"/>
+        <quit-on-end value="false"/>
+    </gui_only>
+
+    <report>
+        <verbose value="true"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</configuration>

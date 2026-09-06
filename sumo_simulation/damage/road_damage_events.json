@@ -1,0 +1,56 @@
+{
+    "_description": "Road damage schedule with full and partial blockages. Edges split randomly 50/50 using seed 2015.",
+    "seed": 2015,
+    "selection_criteria": "Top 50 high-throughput edges by (lanes * length), sampled deterministically (n=12)",
+    "blockage_events": [
+        {
+            "event_id": "initial_quake_debris_t300",
+            "timestamp_seconds": 300,
+            "description": "Immediate post-earthquake structural collapse and road blockage in central corridors",
+            "disallowed_classes": [
+                "all"
+            ],
+            "fully_blocked_edges": [
+                "351018906#0",
+                "172385226#0",
+                "1194719931"
+            ],
+            "partially_blocked_edges": [
+                "-172385226#1",
+                "172333281#0"
+            ]
+        },
+        {
+            "event_id": "aftershock_debris_t1800",
+            "timestamp_seconds": 1800,
+            "description": "Major aftershock causes secondary building collapse and blocked access routes",
+            "disallowed_classes": [
+                "all"
+            ],
+            "fully_blocked_edges": [
+                "344347487",
+                "422272357#0"
+            ],
+            "partially_blocked_edges": [
+                "-172333281#0",
+                "231880678#0"
+            ]
+        },
+        {
+            "event_id": "aftershock_debris_t3600",
+            "timestamp_seconds": 3600,
+            "description": "Secondary debris accumulation blocking peripheral access roads",
+            "disallowed_classes": [
+                "all"
+            ],
+            "fully_blocked_edges": [
+                "351926855#2-AddedOffRampEdge",
+                "169336486#1"
+            ],
+            "partially_blocked_edges": [
+                "185939504#0",
+                "58472906#0"
+            ]
+        }
+    ]
+}

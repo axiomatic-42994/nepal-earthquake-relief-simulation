@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Vehicle type definitions for Nepal Earthquake Relief Simulation
+     Maps LDA-identified aid topics to SUMO vehicle types.
+     
+     vClass determines which roads/lanes the vehicle may use.
+     vType defines the physical and behavioral parameters.
+     The bluelight device is enabled via the generic parameter "has.bluelight.device".
+-->
+
+<additional>
+
+    <!-- ================================================================
+         AMBULANCE — mapped from NMF class "injured_or_dead_people"
+         vClass="emergency" activates:
+           - may use emergency-only lanes
+           - may overtake on the right
+           - may drive against traffic to pass columns up to 1000m
+         Bluelight device additionally:
+           - ignores red traffic lights
+           - performs aggressive lane changing when jammed (waiting > 1s)
+           - teleports to correct lane at intersections if needed
+         ================================================================ -->
+    <vType id="ambulance"
+           vClass="emergency"
+           length="6.5"
+           maxSpeed="33.33"
+           accel="2.5"
+           decel="4.5"
+           emergencyDecel="9.0"
+           sigma="0.0"
+           speedFactor="1.0"
+           color="1,0,0"
+           guiShape="emergency">
+        <param key="has.bluelight.device" value="true"/>
+    </vType>
+
+    <!-- ================================================================
+         CARGO TRUCK — mapped from NMF classes "displaced_and_evacuations" / "requests_or_needs"
+         vClass="truck" activates:
+           - standard road access (no emergency privileges)
+           - appropriate size/acceleration for heavy vehicles
+         No bluelight device — regular traffic rules apply.
+         ================================================================ -->
+    <vType id="cargo_truck"
+           vClass="truck"
+           length="10.0"
+           maxSpeed="22.22"
+           accel="1.5"
+           decel="3.5"
+           emergencyDecel="6.0"
+           sigma="0.3"
+           speedFactor="1.0"
+           color="0,0.6,1"
+           guiShape="truck">
+    </vType>
+
+    <!-- ================================================================
+         FIRST RESPONDER — mapped from NMF class "missing_and_found_people"
+         vClass="emergency" — same lane privileges as ambulance.
+         Bluelight enabled — ignores red lights, aggressive lane changes.
+         Faster acceleration than ambulance (lighter, more agile vehicle).
+         ================================================================ -->
+    <vType id="first_responder"
+           vClass="emergency"
+           length="5.0"
+           maxSpeed="38.89"
+           accel="3.5"
+           decel="5.0"
+           emergencyDecel="9.0"
+           sigma="0.0"
+           speedFactor="1.0"
+           color="1,0.5,0"
+           guiShape="emergency">
+        <param key="has.bluelight.device" value="true"/>
+    </vType>
+
+</additional>

@@ -1,0 +1,23 @@
+***Starting server on port 52975 ***
+Loading net-file from 'd:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal_earthquake_sim\network\kathmandu.net.xml' ... done (354ms).
+Loading additional-files from 'd:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal_earthquake_sim\vehicles\vtypes.add.xml' ... done (1ms).
+Warning: At actuated tlLogic '296319783', linkIndex 9,10,11,12,13 has no controlling detector.
+Warning: At actuated tlLogic '313286659', linkIndex 12,13,14 has no controlling detector.
+Loading route-files incrementally from 'd:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal_earthquake_sim\demand\relief_vehicles_routed.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Warning: Vehicle 'first_responder_137' performs emergency braking on lane ':1274184084_0_0' with decel=9.00, wished=5.00, severity=1.00, time=3757.00.
+Warning: Vehicle 'first_responder_137' performs emergency stop at the end of lane '351926855#2_0' because there is no connection to the next edge (decel=-27.78, offset=6.61), time=3757.00.
+Simulation ended at time: 3770.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 0.92s
+ TraCI-Duration: 0.49s
+ Real time factor: 4102.29
+ UPS: 14727.965180
+Vehicles:
+ Inserted: 98 (Loaded: 99)
+ Running: 7
+ Waiting: 0
+ Emergency Stops: 1
+ Emergency Braking: 1
