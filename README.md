@@ -6,18 +6,18 @@ the dispatch of relief vehicles through the damaged road network.
 
 ## Repository Structure
 
-- `lda_pipeline/` — (Authored by Yashodeep) The NMF topic-modeling pipeline that
-  processes tweets into disaster-related themes and classes, plus the selected
-  model's outputs under `models/selected/` (`topic_schema.json`,
-  `alignment_results.json`, `metadata.json`).
-- `sumo_simulation/` — (Authored by Pratik) The SUMO/TraCI traffic simulation,
-  dynamic pathfinding logic, and statistical evaluation scripts.
+- `lda_pipeline/` — The NMF topic-modeling pipeline that processes tweets into
+  disaster-related themes and classes, plus the selected model's outputs under
+  `models/selected/` (`topic_schema.json`, `alignment_results.json`,
+  `metadata.json`).
+- `sumo_simulation/` — The SUMO/TraCI traffic simulation, dynamic pathfinding
+  logic, and statistical evaluation scripts.
 - `interface/` — The integration layer connecting the NLP output to the
   simulation input: the shared schema, the class → dispatch-category mapping,
   and the validator that gates one against the other.
 - `tests/` — Unit tests for the demand conversion, the schema validator, and the
   TraCI rerouting/fleet decision logic.
-- `reports/` — The final statistical summary report.
+- `reports/` — The final statistical summary report and generated visualizations.
 
 ## Prerequisites
 
