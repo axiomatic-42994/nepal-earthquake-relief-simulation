@@ -4,8 +4,8 @@ This repository contains the full end-to-end data science and simulation pipelin
 
 ## Repository Structure
 
-- `lda_pipeline/`: (Authored by Yashodeep) Contains the NLP topic modeling pipeline (NMF) that processes tweets to identify disaster-related themes and classes.
-- `sumo_simulation/`: (Authored by you) Contains the SUMO/TraCI traffic simulation, dynamic pathfinding logic, and statistical evaluation scripts.
+- `lda_pipeline/`: Contains the NLP topic modeling pipeline (NMF) that processes tweets to identify disaster-related themes and classes.
+- `sumo_simulation/`: Contains the SUMO/TraCI traffic simulation, dynamic pathfinding logic, and statistical evaluation scripts.
 - `interface/`: The integration layer connecting the NLP output to the simulation input, defining the shared schema and mapping rules.
 - `reports/`: Contains the final statistical summary report and generated visualizations.
 
