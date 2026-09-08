@@ -66,10 +66,11 @@ def run_replications():
         # 4. Evaluate and Store
         print("\nEvaluating results...")
         route_file = os.path.join(base_dir, 'demand', 'relief_vehicles.rou.xml')
+        routed_file = os.path.join(base_dir, 'demand', 'relief_vehicles_routed.rou.xml')
         total_expected = get_total_expected(route_file)
         
-        dyn_res = parse_tripinfo(dyn_out, total_expected)
-        sta_res = parse_tripinfo(sta_out, total_expected)
+        dyn_res = parse_tripinfo(dyn_out, total_expected, route_file=routed_file)
+        sta_res = parse_tripinfo(sta_out, total_expected, route_file=routed_file)
         
         results['dynamic'].append(dyn_res)
         results['static'].append(sta_res)

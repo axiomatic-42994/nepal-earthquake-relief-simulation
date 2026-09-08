@@ -26,8 +26,56 @@ def get_total_expected(route_file):
     return count if count > 0 else 150
 
 
-def parse_tripinfo(xml_file, total_expected, threshold_seconds=300.0):
-    """Parse SUMO tripinfo.xml file into structured performance metrics."""
+def _load_route_destinations(route_file):
+    """Extract the final edge for each dispatch vehicle from the routed file."""
+    if route_file is None or not os.path.exists(route_file):
+        return None
+    tree = ET.parse(route_file)
+    root = tree.getroot()
+    dispatch_types = ['ambulance', 'first_responder', 'cargo_truck']
+    destinations = {}
+    for veh in root.findall('vehicle'):
+        vtype = veh.attrib.get('type', '').split('@')[0]
+        if vtype in dispatch_types:
+            route_node = veh.find('route')
+            if route_node is not None:
+                edges = route_node.attrib['edges'].split()
+                if edges:
+                    destinations[veh.attrib['id']] = edges[-1]
+    return destinations
+
+
+def _is_genuine_delivery(tripinfo_elem, destinations):
+    """Check if a tripinfo record represents a genuine delivery (arrived at assigned destination)
+    rather than a false delivery caused by traci.vehicle.remove().
+    
+    When SUMO's TraCI removes a vehicle via vehicle.remove(), it still writes a tripinfo
+    record, but the vehicle's arrivalLane will NOT match its assigned route's last edge.
+    These records typically have duration=1.0s and should not be counted as deliveries.
+    """
+    if destinations is None:
+        return True  # No route file provided; can't validate (backward compat)
+    vid = tripinfo_elem.attrib['id']
+    expected_edge = destinations.get(vid)
+    if expected_edge is None:
+        return True  # Vehicle not in route file; assume genuine
+    arrival_lane = tripinfo_elem.attrib.get('arrivalLane', '')
+    arrival_edge = '_'.join(arrival_lane.rsplit('_', 1)[:-1]) if '_' in arrival_lane else arrival_lane
+    return arrival_edge == expected_edge
+
+
+def parse_tripinfo(xml_file, total_expected, threshold_seconds=300.0, route_file=None):
+    """Parse SUMO tripinfo.xml file into structured performance metrics.
+    
+    Args:
+        xml_file: Path to the tripinfo XML output from SUMO.
+        total_expected: Total number of dispatch vehicles expected.
+        threshold_seconds: Max duration to count as "fulfilled" (default 300s).
+        route_file: Optional path to the routed vehicle file. When provided,
+            cross-references each vehicle's arrivalLane against its assigned
+            route's last edge to filter out false deliveries caused by
+            traci.vehicle.remove().
+    """
     if not os.path.exists(xml_file):
         raise FileNotFoundError(f"File not found: {xml_file}")
 
@@ -35,7 +83,12 @@ def parse_tripinfo(xml_file, total_expected, threshold_seconds=300.0):
     root = tree.getroot()
     # Filter to only consider dispatch vehicles (ignore background civilian traffic)
     dispatch_types = ['ambulance', 'first_responder', 'cargo_truck']
-    trips = [t for t in root.findall('tripinfo') if t.attrib.get('vType', '').split('@')[0] in dispatch_types]
+    all_dispatch_trips = [t for t in root.findall('tripinfo') if t.attrib.get('vType', '').split('@')[0] in dispatch_types]
+
+    # Filter out false deliveries (vehicles removed by TraCI that still wrote tripinfo)
+    destinations = _load_route_destinations(route_file)
+    trips = [t for t in all_dispatch_trips if _is_genuine_delivery(t, destinations)]
+    false_deliveries = len(all_dispatch_trips) - len(trips)
 
     completed = len(trips)
     completion_rate = (completed / total_expected) * 100.0 if total_expected > 0 else 0.0
@@ -93,11 +146,11 @@ def parse_tripinfo(xml_file, total_expected, threshold_seconds=300.0):
     }
 
 
-def generate_evaluation_report(dynamic_file, static_file, output_json, output_md, route_file):
+def generate_evaluation_report(dynamic_file, static_file, output_json, output_md, route_file, routed_file=None):
     """Compare dynamic vs static results and generate report."""
     total_expected = get_total_expected(route_file)
-    dyn = parse_tripinfo(dynamic_file, total_expected)
-    sta = parse_tripinfo(static_file, total_expected)
+    dyn = parse_tripinfo(dynamic_file, total_expected, route_file=routed_file)
+    sta = parse_tripinfo(static_file, total_expected, route_file=routed_file)
 
     # Compute comparative delta & improvements
     duration_diff = sta['avg_duration_sec'] - dyn['avg_duration_sec']
@@ -179,5 +232,6 @@ if __name__ == '__main__':
     out_json = os.path.join(base_dir, 'output', 'comparison_summary.json')
     out_md = os.path.join(base_dir, 'output', 'comparison_report.md')
     route_file = os.path.join(base_dir, 'demand', 'relief_vehicles.rou.xml')
+    routed_file = os.path.join(base_dir, 'demand', 'relief_vehicles_routed.rou.xml')
 
-    generate_evaluation_report(dyn_xml, sta_xml, out_json, out_md, route_file)
+    generate_evaluation_report(dyn_xml, sta_xml, out_json, out_md, route_file, routed_file=routed_file)

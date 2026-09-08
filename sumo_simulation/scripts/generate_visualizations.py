@@ -63,6 +63,7 @@ def plot_statistical_replication():
     for seed in seeds:
         bg_route = os.path.join(base_dir, 'demand', f'bg_routes_{seed}.rou.xml')
         relief_route = os.path.join(base_dir, 'demand', 'relief_vehicles.rou.xml')
+        routed_file = os.path.join(base_dir, 'demand', 'relief_vehicles_routed.rou.xml')
         
         dyn_out = os.path.join(base_dir, 'output', f'tripinfo_dynamic_{seed}.xml')
         sta_out = os.path.join(base_dir, 'output', f'tripinfo_static_{seed}.xml')
@@ -70,8 +71,8 @@ def plot_statistical_replication():
         total_expected = get_total_expected(relief_route)
         
         if os.path.exists(dyn_out) and os.path.exists(sta_out):
-            dyn_res = parse_tripinfo(dyn_out, total_expected)
-            sta_res = parse_tripinfo(sta_out, total_expected)
+            dyn_res = parse_tripinfo(dyn_out, total_expected, route_file=routed_file)
+            sta_res = parse_tripinfo(sta_out, total_expected, route_file=routed_file)
             
             data.append({
                 'Seed': str(seed),

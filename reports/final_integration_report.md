@@ -22,16 +22,17 @@ In the Static baseline, relief vehicles follow their initial pre-computed routes
 
 ### Dynamic Rerouting (TraCI Traversal)
 Under Dynamic Rerouting, vehicles approaching heavily penalized debris edges trigger Dijkstra re-computation to find alternative, longer, but passable paths through the Kathmandu network.
-- **Fulfillment Rate:** 95.87% (± 0.98%)
-- **Average Delivery Duration:** 157.13s (± 3.09s)
-- **Average Waiting Time:** 2.83s (± 2.90s)
-- **Stranded Vehicles:** 5.00 (± 0.00)
+- **Fulfillment Rate:** 89.20% (± 0.98%)
+- **Average Delivery Duration:** 168.31s (± 3.32s)
+- **Average Waiting Time:** 3.04s (± 3.11s)
+- **Stranded / Abandoned Vehicles:** 15.00 (± 0.00)
 
 ## 3. Findings
-The TraCI dynamic intervention demonstrates immense value under the true skewed demand distribution.
-- **+25.07% Delivery Success:** The fulfillment rate gain is highly significant, rescuing roughly 38 total relief vehicles (approx. 25 per hour) from being permanently trapped in rubble.
-- **83.20s Faster Turnaround:** Vehicles that avoid the debris complete their trips on average a minute and a half faster, dropping the average waiting time (traffic jam accumulation) from 87 seconds to near-zero (2.83s).
-- **Deterministic Stranding (5.00):** Exactly 5 vehicles across all 5 random seeds remain permanently stranded. This is because their destinations (or departure points) are entirely enclosed by the rubble events, meaning the graph is mathematically disconnected and no reroute is physically possible.
+The TraCI dynamic intervention demonstrates immense value under the true skewed demand distribution, though with a notable limitation regarding damage assessment.
+
+- **+18.40% Delivery Success:** The fulfillment rate gain (deliveries under 300s) is significant, enabling roughly 28 more relief vehicles to reach their destinations on time compared to the static baseline.
+- **72.02s Faster Turnaround:** Vehicles that avoid the debris complete their trips on average over a minute faster, dropping the average waiting time (traffic jam accumulation) from 87 seconds to near-zero (3.04s).
+- **The Disjoint-Failure-Set Limitation:** Both dynamic and static modes fail to deliver ~15 vehicles, but they do so differently. When the TraCI rerouting logic detects a completely blocked destination, it correctly identifies that no alternative path exists and calls `vehicle.remove()` to abandon the mission. However, it fails to distinguish between "impassable rubble" and "slow but passable" degradation. In the static baseline, some of these same vehicles do eventually reach their destinations by slowly crawling through (and teleporting out of) the rubble over 15-25 minutes. Thus, dynamic mode trades higher overall efficiency for a strict, brittle abandonment policy when a corridor is choked.
 
 ## 4. Repository Consolidation
 The project has now been unified into a single top-level `nepal-earthquake-relief-simulation` repository.
