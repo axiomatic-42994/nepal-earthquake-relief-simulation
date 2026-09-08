@@ -3,36 +3,36 @@
     "metrics": {
         "dynamic_rerouting": {
             "total_expected": 150,
-            "completed": 145,
-            "uncompleted_or_stranded": 5,
-            "completion_rate_pct": 96.66666666666667,
-            "fulfilled_within_threshold": 142,
-            "fulfillment_rate_pct": 94.66666666666667,
+            "completed": 135,
+            "uncompleted_or_stranded": 15,
+            "completion_rate_pct": 90.0,
+            "fulfilled_within_threshold": 132,
+            "fulfillment_rate_pct": 88.0,
             "threshold_seconds": 300.0,
-            "avg_duration_sec": 161.6206896551724,
-            "std_duration_sec": 80.1227565905112,
-            "median_duration_sec": 164.0,
-            "avg_waiting_time_sec": 6.641379310344828,
-            "avg_time_loss_sec": 35.53586206896552,
-            "avg_route_length_km": 2.3126649655172415,
+            "avg_duration_sec": 173.13333333333333,
+            "std_duration_sec": 70.39400226976412,
+            "median_duration_sec": 169.0,
+            "avg_waiting_time_sec": 7.133333333333334,
+            "avg_time_loss_sec": 38.10925925925926,
+            "avg_route_length_km": 2.4697292592592595,
             "by_vehicle_type": {
                 "ambulance": {
-                    "completed_count": 94,
-                    "avg_duration": 154.17021276595744,
-                    "avg_waiting": 5.0,
-                    "avg_timeLoss": 31.52776595744681
+                    "completed_count": 88,
+                    "avg_duration": 164.02272727272728,
+                    "avg_waiting": 5.340909090909091,
+                    "avg_timeLoss": 33.58704545454545
                 },
                 "first_responder": {
-                    "completed_count": 27,
-                    "avg_duration": 163.77777777777777,
-                    "avg_waiting": 1.2962962962962963,
-                    "avg_timeLoss": 23.99481481481482
+                    "completed_count": 25,
+                    "avg_duration": 176.8,
+                    "avg_waiting": 1.4,
+                    "avg_timeLoss": 25.9144
                 },
                 "cargo_truck": {
-                    "completed_count": 24,
-                    "avg_duration": 188.375,
-                    "avg_waiting": 19.083333333333332,
-                    "avg_timeLoss": 64.21791666666667
+                    "completed_count": 22,
+                    "avg_duration": 205.4090909090909,
+                    "avg_waiting": 20.818181818181817,
+                    "avg_timeLoss": 70.0559090909091
                 }
             }
         },
@@ -72,12 +72,12 @@
             }
         },
         "comparative_deltas": {
-            "avg_duration_saved_seconds": 86.38712284482759,
-            "avg_duration_improvement_pct": 34.83241998468399,
-            "avg_waiting_reduction_seconds": 87.67893318965517,
-            "avg_waiting_reduction_pct": 92.95869666425794,
-            "fulfillment_rate_gain_pct": 26.0,
-            "stranded_vehicles_prevented": 17
+            "avg_duration_saved_seconds": 74.87447916666667,
+            "avg_duration_improvement_pct": 30.19037118706358,
+            "avg_waiting_reduction_seconds": 87.18697916666666,
+            "avg_waiting_reduction_pct": 92.43711863938816,
+            "fulfillment_rate_gain_pct": 19.33333333333333,
+            "stranded_vehicles_prevented": 7
         }
     }
 }

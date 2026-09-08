@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-09-02 21:38:12.452185 by Eclipse SUMO randomTrips.py v1_27_1+0000-7717f2379d9
+<!-- generated on 2026-09-08 16:53:09.992213 by Eclipse SUMO randomTrips.py v1_27_1+0000-7717f2379d9
 <configuration>
     <net-file value="D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml"/>
     <output-trip-file value="D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_trips_202.rou.xml"/>

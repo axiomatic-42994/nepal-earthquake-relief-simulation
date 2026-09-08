@@ -146,18 +146,24 @@ views of the same experiment.
 
 ## Reading the metrics
 
-`evaluate_results.py` counts one `<tripinfo>` record as one completed delivery.
-That is not safe in dynamic mode. When the TraCI controller abandons a vehicle it
-calls `traci.vehicle.remove(...)`, and SUMO still writes a `<tripinfo>` record
-with `arrival` set to the removal time — so an abandoned mission is indexed as a
-completed one, typically with `duration="1.00"`.
+**This was a real defect and it has been fixed** (commit `20c4784`). The history
+matters, because older drafts of the report quote the pre-fix numbers.
+
+When the TraCI controller abandons a vehicle it calls
+`traci.vehicle.remove(...)`, and SUMO **still writes a `<tripinfo>` record** for
+it, with `arrival` set to the removal time. The original `parse_tripinfo`
+counted one tripinfo record as one delivery, so an abandoned mission was indexed
+as a completed one — typically with `duration="1.00"`, which also cleared the
+300s fulfilment threshold and pulled the mean duration down.
 
 Measured on the committed N=5 output: **10 vehicles per dynamic run** are removed
 this way, every one of them blocked by the same edge `1194719931`. Static mode
-performs **zero** removals, so the bias only ever flatters dynamic mode. Counting
-only vehicles whose `arrivalLane` lies on their route's final edge:
+performs **zero** removals, so the bias only ever flattered dynamic mode.
 
-| Metric (N=5 mean)   | As reported | Delivery-verified |
+`parse_tripinfo` now takes a `route_file` argument and drops any record whose
+`arrivalLane` does not lie on its assigned route's final edge:
+
+| Metric (N=5 mean)   | Pre-fix | Corrected (current) |
 |---|---|---|
 | Dynamic delivered   | 145.00 | 135.00 |
 | Dynamic stranded    | 5.00   | 15.00  |
@@ -166,8 +172,16 @@ only vehicles whose `arrivalLane` lies on their route's final edge:
 | Fulfilment gain     | +25.07pp | +18.40pp |
 | Vehicles delivered vs static | +10.20 | +0.20 |
 
-**Static-mode figures are unaffected** — no removals occur there. Run
-`scripts/verify_delivery_integrity.py` to re-derive this table from the raw XML.
+**Static-mode figures were never affected** — 70.80%, 240.33s, 87.27s and 15.20
+stranded stand exactly as originally published, because no removals occur there.
+
+Two caveats worth keeping in mind:
+- The filter is only active when `route_file` is passed. `parse_tripinfo(path, n)`
+  without it silently returns the old inflated counts (kept for backward
+  compatibility). `run_statistical_replication.py`, `generate_visualizations.py`
+  and `evaluate_results.py` all pass it.
+- Run `scripts/verify_delivery_integrity.py` to see both columns side by side and
+  to list the specific vehicles that were abandoned.
 
 ## Key Design Decisions
 

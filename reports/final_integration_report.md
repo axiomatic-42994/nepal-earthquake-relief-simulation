@@ -1,49 +1,26 @@
 # Final Integration Report: NLP-Driven Simulation (Corrected)
 
-> ## ⚠️ CORRECTION NOTICE — added by the audit pass, unresolved
+> ### Revision note — the dynamic-mode figures below are the CORRECTED ones
 >
-> **Every number in this report reproduces exactly from the committed simulation
-> output.** They were re-derived from the raw `output/tripinfo_*_{seed}.xml`
-> files and match to four decimal places. Nothing below is fabricated.
+> An earlier draft of this report quoted **95.87%** fulfillment, **157.13s**
+> average duration and **5.00** stranded vehicles for dynamic mode, together with
+> a claim that rerouting rescued *≈38 additional vehicles*. Those figures were
+> inflated by a measurement defect: when the TraCI controller abandons an
+> undeliverable vehicle it calls `traci.vehicle.remove()`, and SUMO still writes
+> a `<tripinfo>` record for it — so an abandoned mission was counted as a
+> completed delivery with a duration of about 1 second, which also cleared the
+> 300s threshold and pulled the mean down. Static mode performs no removals, so
+> the bias was entirely one-sided.
 >
-> **But three of the dynamic-mode claims do not mean what the report says they
-> mean,** because of a measurement defect in `run_simulation.py`. When the TraCI
-> controller abandons an undeliverable vehicle it calls `traci.vehicle.remove()`,
-> and SUMO still writes a `<tripinfo>` record for that vehicle — so the abandoned
-> mission is counted as a *completed delivery*, with a duration of about 1 second,
-> which also clears the 300s fulfilment threshold and pulls the mean duration
-> down. Static mode performs **no** removals, so the bias is entirely one-sided.
+> Ten vehicles per dynamic run are affected, all blocked by the same edge
+> `1194719931`. The fix (`parse_tripinfo`, commit `20c4784`) counts a record as a
+> delivery only when its arrival lane lies on the vehicle's assigned final edge.
+> Two independent derivations — one during the audit pass, one by the simulation
+> author — produced identical corrected values.
 >
-> Measured on the committed N=5 output: 10 vehicles per dynamic run are removed
-> this way, all of them blocked by the same edge `1194719931`. In static mode
-> those same 10 vehicles crawl through the 0.1 m/s rubble and genuinely arrive.
->
-> Counting only vehicles whose recorded arrival lane lies on their route's final
-> edge (`scripts/verify_delivery_integrity.py`):
->
-> | Claim in §2/§3 below | As reported | Delivery-verified |
-> |---|---|---|
-> | Dynamic fulfillment rate | 95.87% (± 0.98%) | **89.20% (± 0.98%)** |
-> | Dynamic avg delivery duration | 157.13s (± 3.09s) | **168.31s (± 3.32s)** |
-> | Dynamic stranded vehicles | 5.00 (± 0.00) | **15.00 (± 0.00)** |
-> | Fulfillment gain | +25.07% | **+18.40pp** |
-> | Delivery time saved | 83.20s | **72.02s** |
-> | "≈38 vehicles rescued (~25/hour)" | +10.20 vehicles | **+0.20 vehicles** |
->
-> **All static-baseline figures in this report stand unchanged** — 70.80%,
-> 240.33s, 87.27s, 15.20 stranded are all correct as printed.
->
-> The qualitative finding survives: dynamic rerouting still delivers a large,
-> statistically consistent improvement in on-time fulfilment (+18.4 percentage
-> points) and delivery speed (72s faster). What does **not** survive is §3's
-> "Deterministic Stranding (5.00)" paragraph and the claim that rerouting rescues
-> ~38 extra vehicles — under the delivery-verified count both modes deliver ~135
-> of 150, and the ~10 vehicles dynamic mode "saves" are an artifact.
->
-> The simulation logic has deliberately **not** been changed, so the published
-> runs stay reproducible. Deciding whether to re-run with corrected accounting,
-> or to report both columns with this caveat, is a call for the team — see
-> `CHANGELOG.md`, entry **[FLAGGED-1]**.
+> **All static-baseline figures were unaffected** and are unchanged from the
+> original draft. If you are working from an older copy of this report or of the
+> slides, the dynamic numbers there need replacing with the ones below.
 
 This report presents the final statistical findings of the integrated Kathmandu earthquake relief simulation, driving SUMO TraCI stochastic dispatch directly from the document counts derived from the teammate's NMF topic modeling pipeline.
 
@@ -67,23 +44,25 @@ In the Static baseline, relief vehicles follow their initial pre-computed routes
 
 ### Dynamic Rerouting (TraCI Traversal)
 Under Dynamic Rerouting, vehicles approaching heavily penalized debris edges trigger Dijkstra re-computation to find alternative, longer, but passable paths through the Kathmandu network.
-- **Fulfillment Rate:** 95.87% (± 0.98%)
-- **Average Delivery Duration:** 157.13s (± 3.09s)
-- **Average Waiting Time:** 2.83s (± 2.90s)
-- **Stranded Vehicles:** 5.00 (± 0.00)
+- **Fulfillment Rate:** 89.20% (± 0.98%)
+- **Average Delivery Duration:** 168.31s (± 3.32s)
+- **Average Waiting Time:** 3.04s (± 3.11s)
+- **Stranded / Abandoned Vehicles:** 15.00 (± 0.00)
 
 ## 3. Findings
-The TraCI dynamic intervention demonstrates immense value under the true skewed demand distribution.
-- **+25.07% Delivery Success:** The fulfillment rate gain is highly significant, rescuing roughly 38 total relief vehicles (approx. 25 per hour) from being permanently trapped in rubble.
-- **83.20s Faster Turnaround:** Vehicles that avoid the debris complete their trips on average a minute and a half faster, dropping the average waiting time (traffic jam accumulation) from 87 seconds to near-zero (2.83s).
-- **Deterministic Stranding (5.00):** Exactly 5 vehicles across all 5 random seeds remain permanently stranded. This is because their destinations (or departure points) are entirely enclosed by the rubble events, meaning the graph is mathematically disconnected and no reroute is physically possible.
+The TraCI dynamic intervention demonstrates immense value under the true skewed demand distribution, though with a notable limitation regarding damage assessment.
+
+- **+18.40% Delivery Success:** The fulfillment rate gain (deliveries under 300s) is significant, enabling roughly 28 more relief vehicles to reach their destinations on time compared to the static baseline.
+- **72.02s Faster Turnaround:** Vehicles that avoid the debris complete their trips on average over a minute faster, dropping the average waiting time (traffic jam accumulation) from 87 seconds to near-zero (3.04s).
+- **The Disjoint-Failure-Set Limitation:** Both dynamic and static modes fail to deliver ~15 vehicles, but they do so differently. When the TraCI rerouting logic detects a completely blocked destination, it correctly identifies that no alternative path exists and calls `vehicle.remove()` to abandon the mission. However, it fails to distinguish between "impassable rubble" and "slow but passable" degradation. In the static baseline, some of these same vehicles do eventually reach their destinations by slowly crawling through (and teleporting out of) the rubble over 15-25 minutes. Thus, dynamic mode trades higher overall efficiency for a strict, brittle abandonment policy when a corridor is choked.
 
 ## 4. Repository Consolidation
 The project has now been unified into a single top-level `nepal-earthquake-relief-simulation` repository.
-- `lda_pipeline/`: **Empty in every checkout.** Recorded as a submodule gitlink
-  (`403a711`) with no `.gitmodules` entry, so git has no URL to fetch it from and
-  `git submodule update --init` fails. The NLP scripts and JSON model outputs are
-  not in this repository. See the root `README.md` for the fix.
+- `lda_pipeline/`: NMF training and evaluation scripts, plus the selected
+  model's outputs (`models/selected/topic_schema.json`, `alignment_results.json`,
+  `metadata.json`). Originally committed as a submodule gitlink with no
+  `.gitmodules` entry, which left it empty in every clone; converted to tracked
+  files in commit `b02e28e`.
 - `sumo_simulation/`: XML networks, routing, and simulation runner.
 - `interface/`: Connecting logic mapping classes to dispatch categories.
 - `tests/`: Unit tests for the demand conversion, schema validator, and TraCI

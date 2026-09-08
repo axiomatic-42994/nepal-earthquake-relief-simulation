@@ -1,253 +1,193 @@
 """
-verify_delivery_integrity.py — Delivery-verified evaluation of the relief simulation.
-
-WHY THIS EXISTS
----------------
-`evaluate_results.py` treats every <tripinfo> record as a completed delivery.
-That assumption does not hold in dynamic mode. When the TraCI controller in
-run_simulation.py gives up on a vehicle it calls:
-
-    traci.vehicle.remove(veh_id, traci.constants.REMOVE_PARKING)
-
-SUMO still emits a <tripinfo> record for a vehicle removed this way, with
-`arrival` set to the removal time. So an abandoned mission is written out
-looking exactly like a fast, successful one — typically `duration="1.00"` with a
-routeLength equal to the depot edge alone.
-
-Consequences for the headline metrics, all of them one-sided in favour of
-dynamic mode (static mode performs no removals at all):
-
-  * abandoned vehicles are counted as `completed`
-  * their ~1s duration clears the 300s threshold, so they count as `fulfilled`
-  * their ~1s duration and 0s waiting time pull both means sharply down
-
-THE CHECK
----------
-This script ignores the log entirely and asks a structural question of the raw
-output: did the vehicle's tripinfo `arrivalLane` sit on the last edge of the
-route it was actually given in the routed demand file?
-
-  delivered  <=>  edge_of(tripinfo.arrivalLane) == route.edges[-1]
-
-That is a property of the committed artefacts alone, so it can be re-derived by
-anyone without rerunning SUMO. It also self-controls: in static mode every
-tripinfo record passes the check, which is what you would expect if the check
-itself were sound.
-
-USAGE
------
-    python verify_delivery_integrity.py                  # N=5 seeded replication
-    python verify_delivery_integrity.py --seeds 42       # a single seed
-    python verify_delivery_integrity.py --single-run     # unseeded tripinfo_{mode}.xml
-    python verify_delivery_integrity.py --json out.json  # also write machine-readable output
-
-This script only READS simulation output. It never rewrites the published
-results, and it is not a substitute for evaluate_results.py — it is the honesty
-check that sits beside it.
+verify_delivery_integrity.py — Cross-references tripinfo arrivalLane against
+each vehicle's assigned route last edge to detect false deliveries caused by
+traci.vehicle.remove() writing tripinfo records for abandoned vehicles.
 """
-
-import argparse
-import json
 import os
+import sys
 import xml.etree.ElementTree as ET
-
 import numpy as np
 
-DISPATCH_TYPES = ("ambulance", "first_responder", "cargo_truck")
-DEFAULT_SEEDS = (42, 101, 202, 303, 404)
-FULFILMENT_THRESHOLD_S = 300.0
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def base_vtype(raw):
-    """
-    Strip SUMO's singular-vType suffix.
-
-    SUMO renames a vehicle's type to 'origType@vehID' when that vehicle acquires
-    per-vehicle parameters, so 'cargo_truck@cargo_truck_114' is still a cargo truck.
-    """
-    return raw.split("@")[0]
-
-
-def edge_of(lane_id):
-    """'123456#0_1' -> '123456#0'. SUMO lane ids are '<edge>_<index>'."""
-    return lane_id.rsplit("_", 1)[0] if lane_id else ""
-
-
-def load_intended_destinations(routed_route_file):
-    """Map vehicle id -> final edge of the route it was dispatched with."""
-    if not os.path.exists(routed_route_file):
-        raise FileNotFoundError(
-            f"Routed demand file not found: {routed_route_file}\n"
-            "It is produced by duarouter; see sumo_simulation/README.md step 2."
-        )
-
+def get_route_destinations(route_file):
+    """Extract the final edge for each dispatch vehicle from the routed file."""
+    tree = ET.parse(route_file)
+    root = tree.getroot()
+    dispatch_types = ['ambulance', 'first_responder', 'cargo_truck']
     destinations = {}
-    for veh in ET.parse(routed_route_file).getroot().findall("vehicle"):
-        route = veh.find("route")
-        if route is None:
-            continue
-        edges = route.attrib.get("edges", "").split()
-        if edges:
-            destinations[veh.attrib["id"]] = edges[-1]
-
-    if not destinations:
-        raise ValueError(
-            f"No <vehicle> elements with an embedded <route> found in "
-            f"{routed_route_file}. Was duarouter run on the raw trips file?"
-        )
+    for veh in root.findall('vehicle'):
+        vtype = veh.attrib.get('type', '').split('@')[0]
+        if vtype in dispatch_types:
+            route_node = veh.find('route')
+            if route_node is not None:
+                edges = route_node.attrib['edges'].split()
+                if edges:
+                    destinations[veh.attrib['id']] = edges[-1]
     return destinations
 
-
-def analyse_run(tripinfo_file, destinations, threshold=FULFILMENT_THRESHOLD_S):
-    """
-    Compare the naive (tripinfo-record) view against the delivery-verified view
-    for one simulation output file.
-    """
-    if not os.path.exists(tripinfo_file):
-        raise FileNotFoundError(f"Tripinfo file not found: {tripinfo_file}")
-
-    dispatched = len(destinations)
-    trips = [t for t in ET.parse(tripinfo_file).getroot().findall("tripinfo")
-             if base_vtype(t.attrib.get("vType", "")) in DISPATCH_TYPES]
-
-    delivered, phantom = [], []
+def verify_tripinfo(tripinfo_file, route_file, label=""):
+    """Check each tripinfo record against its expected destination edge."""
+    destinations = get_route_destinations(route_file)
+    total_expected = len(destinations)
+    
+    tree = ET.parse(tripinfo_file)
+    root = tree.getroot()
+    dispatch_types = ['ambulance', 'first_responder', 'cargo_truck']
+    trips = [t for t in root.findall('tripinfo') 
+             if t.attrib.get('vType', '').split('@')[0] in dispatch_types]
+    
+    genuine_deliveries = []
+    false_deliveries = []
+    
     for t in trips:
-        intended = destinations.get(t.attrib["id"])
-        if intended is not None and edge_of(t.attrib.get("arrivalLane", "")) == intended:
-            delivered.append(t)
+        vid = t.attrib['id']
+        arrival_lane = t.attrib.get('arrivalLane', '')
+        # arrivalLane is like "edgeid_0", extract edge
+        arrival_edge = '_'.join(arrival_lane.rsplit('_', 1)[:-1]) if '_' in arrival_lane else arrival_lane
+        
+        expected_edge = destinations.get(vid, None)
+        duration = float(t.attrib['duration'])
+        
+        if expected_edge and arrival_edge == expected_edge:
+            genuine_deliveries.append({
+                'id': vid,
+                'duration': duration,
+                'waiting': float(t.attrib['waitingTime']),
+                'arrival_edge': arrival_edge,
+                'expected_edge': expected_edge
+            })
         else:
-            phantom.append(t)
-
-    def summarise(records):
-        if not records:
-            return {"count": 0, "fulfilled": 0, "fulfilment_pct": 0.0,
-                    "avg_duration_s": 0.0, "avg_waiting_s": 0.0}
-        durations = [float(r.attrib["duration"]) for r in records]
-        waits = [float(r.attrib["waitingTime"]) for r in records]
-        fulfilled = sum(1 for d in durations if d <= threshold)
-        return {
-            "count": len(records),
-            "fulfilled": fulfilled,
-            "fulfilment_pct": fulfilled / dispatched * 100.0,
-            "avg_duration_s": float(np.mean(durations)),
-            "avg_waiting_s": float(np.mean(waits)),
-        }
-
+            false_deliveries.append({
+                'id': vid,
+                'duration': duration,
+                'waiting': float(t.attrib['waitingTime']),
+                'arrival_edge': arrival_edge,
+                'arrival_lane': arrival_lane,
+                'expected_edge': expected_edge
+            })
+    
+    # Original (buggy) metrics
+    all_durations = [float(t.attrib['duration']) for t in trips]
+    original_completed = len(trips)
+    original_fulfilled = sum(1 for d in all_durations if d <= 300.0)
+    original_fulfillment = (original_fulfilled / total_expected) * 100.0
+    original_avg_dur = np.mean(all_durations) if all_durations else 0.0
+    original_avg_wait = np.mean([float(t.attrib['waitingTime']) for t in trips]) if trips else 0.0
+    
+    # Corrected metrics (genuine deliveries only)
+    corrected_completed = len(genuine_deliveries)
+    genuine_durations = [d['duration'] for d in genuine_deliveries]
+    genuine_waiting = [d['waiting'] for d in genuine_deliveries]
+    corrected_fulfilled = sum(1 for d in genuine_durations if d <= 300.0)
+    corrected_fulfillment = (corrected_fulfilled / total_expected) * 100.0
+    corrected_avg_dur = np.mean(genuine_durations) if genuine_durations else 0.0
+    corrected_avg_wait = np.mean(genuine_waiting) if genuine_waiting else 0.0
+    corrected_stranded = total_expected - corrected_completed
+    
+    print(f"\n{'='*60}")
+    print(f"  {label}")
+    print(f"{'='*60}")
+    print(f"  Total expected:       {total_expected}")
+    print(f"  Tripinfo records:     {original_completed}")
+    print(f"  Genuine deliveries:   {corrected_completed}")
+    print(f"  False deliveries:     {len(false_deliveries)}")
+    print(f"  Stranded (corrected): {corrected_stranded}")
+    print(f"")
+    print(f"  --- ORIGINAL (buggy) ---")
+    print(f"  Fulfillment rate:     {original_fulfillment:.2f}%")
+    print(f"  Avg duration:         {original_avg_dur:.2f}s")
+    print(f"  Avg waiting:          {original_avg_wait:.2f}s")
+    print(f"")
+    print(f"  --- CORRECTED ---")
+    print(f"  Fulfillment rate:     {corrected_fulfillment:.2f}%")
+    print(f"  Avg duration:         {corrected_avg_dur:.2f}s")
+    print(f"  Avg waiting:          {corrected_avg_wait:.2f}s")
+    
+    if false_deliveries:
+        print(f"\n  False delivery details:")
+        for fd in false_deliveries:
+            print(f"    {fd['id']}: duration={fd['duration']:.1f}s, "
+                  f"arrived={fd['arrival_edge']}, expected={fd['expected_edge']}, "
+                  f"arrivalLane={fd['arrival_lane']}")
+    
     return {
-        "tripinfo_file": os.path.basename(tripinfo_file),
-        "dispatched": dispatched,
-        "as_reported": summarise(trips),
-        "delivery_verified": summarise(delivered),
-        "phantom_arrivals": len(phantom),
-        "phantom_ids": sorted(t.attrib["id"] for t in phantom),
-        "stranded_as_reported": dispatched - len(trips),
-        "stranded_verified": dispatched - len(delivered),
+        'total_expected': total_expected,
+        'original_completed': original_completed,
+        'genuine_completed': corrected_completed,
+        'false_deliveries': len(false_deliveries),
+        'stranded': corrected_stranded,
+        'original_fulfillment': original_fulfillment,
+        'corrected_fulfillment': corrected_fulfillment,
+        'corrected_avg_duration': corrected_avg_dur,
+        'corrected_avg_waiting': corrected_avg_wait,
+        'false_delivery_list': false_deliveries
     }
 
 
-def aggregate(runs, key_path):
-    vals = [run[key_path[0]][key_path[1]] if len(key_path) == 2 else run[key_path[0]]
-            for run in runs]
-    return float(np.mean(vals)), float(np.std(vals))
-
-
-def fmt(mean, std):
-    return f"{mean:8.2f} (+/- {std:5.2f})"
-
-
-def report(results_by_mode):
-    print("=" * 78)
-    print(" DELIVERY-VERIFIED EVALUATION")
-    print(" delivered := tripinfo arrivalLane sits on the route's final edge")
-    print("=" * 78)
-
-    for mode, runs in results_by_mode.items():
-        n = len(runs)
-        print(f"\n--- {mode.upper()} MODE (N={n}) ---")
-        print(f"  {'metric':<28}{'as reported':>22}{'delivery-verified':>24}")
-        rows = [
-            ("delivered vehicles", ("as_reported", "count"), ("delivery_verified", "count")),
-            ("stranded vehicles", ("stranded_as_reported",), ("stranded_verified",)),
-            ("fulfilment %", ("as_reported", "fulfilment_pct"), ("delivery_verified", "fulfilment_pct")),
-            ("avg duration (s)", ("as_reported", "avg_duration_s"), ("delivery_verified", "avg_duration_s")),
-            ("avg waiting (s)", ("as_reported", "avg_waiting_s"), ("delivery_verified", "avg_waiting_s")),
-        ]
-        for label, rep_key, ver_key in rows:
-            print(f"  {label:<28}{fmt(*aggregate(runs, rep_key)):>22}"
-                  f"{fmt(*aggregate(runs, ver_key)):>24}")
-
-        phantom_mean, phantom_std = aggregate(runs, ("phantom_arrivals",))
-        print(f"  {'phantom arrivals':<28}{fmt(phantom_mean, phantom_std):>22}"
-              f"{'(abandoned, scored as OK)':>24}")
-
-    if len(results_by_mode) == 2 and "static" in results_by_mode and "dynamic" in results_by_mode:
-        print("\n" + "-" * 78)
-        print(" DYNAMIC vs STATIC - headline deltas")
-        print("-" * 78)
-        print(f"  {'delta':<28}{'as reported':>22}{'delivery-verified':>24}")
-        for label, key in [("fulfilment gain (pp)", "fulfilment_pct"),
-                           ("duration saved (s)", "avg_duration_s"),
-                           ("waiting saved (s)", "avg_waiting_s")]:
-            out = []
-            for view in ("as_reported", "delivery_verified"):
-                s = aggregate(results_by_mode["static"], (view, key))[0]
-                d = aggregate(results_by_mode["dynamic"], (view, key))[0]
-                out.append(d - s if key == "fulfilment_pct" else s - d)
-            print(f"  {label:<28}{out[0]:>+22.2f}{out[1]:>+24.2f}")
-
-        for label, key in [("delivered vehicles", "count")]:
-            out = []
-            for view in ("as_reported", "delivery_verified"):
-                s = aggregate(results_by_mode["static"], (view, key))[0]
-                d = aggregate(results_by_mode["dynamic"], (view, key))[0]
-                out.append(d - s)
-            print(f"  {label:<28}{out[0]:>+22.2f}{out[1]:>+24.2f}")
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Delivery-verified evaluation of relief simulation output")
-    parser.add_argument("--seeds", type=int, nargs="+", default=list(DEFAULT_SEEDS),
-                        help="Replication seeds to evaluate (default: 42 101 202 303 404)")
-    parser.add_argument("--single-run", action="store_true",
-                        help="Evaluate the unseeded tripinfo_{mode}.xml pair instead")
-    parser.add_argument("--routed-demand",
-                        default=os.path.join(BASE_DIR, "demand", "relief_vehicles_routed.rou.xml"),
-                        help="Routed relief demand file defining each vehicle's destination")
-    parser.add_argument("--json", dest="json_out", default=None,
-                        help="Also write the full per-run results to this JSON path")
-    args = parser.parse_args()
-
-    destinations = load_intended_destinations(args.routed_demand)
-    print(f"Intended destinations loaded for {len(destinations)} dispatched vehicles "
-          f"from {os.path.basename(args.routed_demand)}\n")
-
-    results = {"static": [], "dynamic": []}
-    for mode in ("static", "dynamic"):
-        if args.single_run:
-            files = [os.path.join(BASE_DIR, "output", f"tripinfo_{mode}.xml")]
+if __name__ == '__main__':
+    base = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    route_file = os.path.join(base, 'demand', 'relief_vehicles_routed.rou.xml')
+    
+    seeds = [42, 101, 202, 303, 404]
+    
+    # Verify dynamic mode across all seeds
+    dyn_results = []
+    sta_results = []
+    
+    for seed in seeds:
+        dyn_file = os.path.join(base, 'output', f'tripinfo_dynamic_{seed}.xml')
+        sta_file = os.path.join(base, 'output', f'tripinfo_static_{seed}.xml')
+        
+        if os.path.exists(dyn_file):
+            r = verify_tripinfo(dyn_file, route_file, f"Dynamic seed={seed}")
+            dyn_results.append(r)
         else:
-            files = [os.path.join(BASE_DIR, "output", f"tripinfo_{mode}_{s}.xml")
-                     for s in args.seeds]
-        for f in files:
-            results[mode].append(analyse_run(f, destinations))
-
-    report(results)
-
-    phantoms = sorted({vid for run in results["dynamic"] for vid in run["phantom_ids"]})
-    if phantoms:
-        print(f"\nVehicles recorded as arriving without reaching their destination "
-              f"(dynamic, union over runs, n={len(phantoms)}):")
-        for vid in phantoms:
-            print(f"  {vid}")
-
-    if args.json_out:
-        with open(args.json_out, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
-        print(f"\nFull per-run results written to {args.json_out}")
-
-
-if __name__ == "__main__":
-    main()
+            print(f"WARNING: {dyn_file} not found")
+            
+        if os.path.exists(sta_file):
+            r = verify_tripinfo(sta_file, route_file, f"Static seed={seed}")
+            sta_results.append(r)
+        else:
+            print(f"WARNING: {sta_file} not found")
+    
+    # Also check the unseeded files
+    for mode in ['dynamic', 'static']:
+        f = os.path.join(base, 'output', f'tripinfo_{mode}.xml')
+        if os.path.exists(f):
+            verify_tripinfo(f, route_file, f"{mode.title()} (unseeded)")
+    
+    # Summary across 5 seeds
+    if dyn_results:
+        print(f"\n{'='*60}")
+        print(f"  AGGREGATE (5-seed mean ± std)")
+        print(f"{'='*60}")
+        
+        dyn_fulfill = [r['corrected_fulfillment'] for r in dyn_results]
+        dyn_dur = [r['corrected_avg_duration'] for r in dyn_results]
+        dyn_wait = [r['corrected_avg_waiting'] for r in dyn_results]
+        dyn_strand = [r['stranded'] for r in dyn_results]
+        dyn_false = [r['false_deliveries'] for r in dyn_results]
+        
+        print(f"  Dynamic (corrected):")
+        print(f"    Fulfillment:  {np.mean(dyn_fulfill):.2f}% (± {np.std(dyn_fulfill):.2f}%)")
+        print(f"    Avg duration: {np.mean(dyn_dur):.2f}s (± {np.std(dyn_dur):.2f}s)")
+        print(f"    Avg waiting:  {np.mean(dyn_wait):.2f}s (± {np.std(dyn_wait):.2f}s)")
+        print(f"    Stranded:     {np.mean(dyn_strand):.2f} (± {np.std(dyn_strand):.2f})")
+        print(f"    False deliv:  {np.mean(dyn_false):.2f} (± {np.std(dyn_false):.2f})")
+        
+    if sta_results:
+        sta_fulfill = [r['corrected_fulfillment'] for r in sta_results]
+        sta_dur = [r['corrected_avg_duration'] for r in sta_results]
+        sta_wait = [r['corrected_avg_waiting'] for r in sta_results]
+        sta_strand = [r['stranded'] for r in sta_results]
+        sta_false = [r['false_deliveries'] for r in sta_results]
+        
+        print(f"\n  Static (control — should have 0 false deliveries):")
+        print(f"    Fulfillment:  {np.mean(sta_fulfill):.2f}% (± {np.std(sta_fulfill):.2f}%)")
+        print(f"    Avg duration: {np.mean(sta_dur):.2f}s (± {np.std(sta_dur):.2f}s)")
+        print(f"    Avg waiting:  {np.mean(sta_wait):.2f}s (± {np.std(sta_wait):.2f}s)")
+        print(f"    Stranded:     {np.mean(sta_strand):.2f} (± {np.std(sta_strand):.2f})")
+        print(f"    False deliv:  {np.mean(sta_false):.2f} (± {np.std(sta_false):.2f})")
+    
+    if dyn_results and sta_results:
+        gain = np.mean(dyn_fulfill) - np.mean(sta_fulfill)
+        print(f"\n  Fulfillment gain (corrected): +{gain:.2f}pp")

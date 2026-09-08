@@ -4,6 +4,141 @@ Full audit and optimization pass over the merged repository.
 Base commit: `d3c93fb` ("Initial commit of verified integrated pipeline").
 **Nothing here has been merged to `main`.**
 
+---
+
+## MERGE — `origin/main` merged in, both flagged items now RESOLVED
+
+While this audit branch was being prepared, Pratik pushed three commits to `main`
+that independently fix **both** of the items flagged below:
+
+| Commit | Fixes |
+|---|---|
+| `b02e28e` | converts `lda_pipeline` from a broken gitlink to tracked files → **[FLAGGED-2] resolved** |
+| `20c4784` | filters false deliveries out of `parse_tripinfo` → **[FLAGGED-1] resolved** |
+| `d3a645c` | re-runs the N=5 simulation |
+
+**Two independent derivations agreed exactly.** The audit pass and Pratik arrived
+at the same corrected values from the same structural check (arrival lane vs the
+route's final edge), with no coordination:
+
+| Metric | Audit pass | Pratik's fix | Agree |
+|---|---|---|---|
+| Dynamic fulfillment | 89.20% (± 0.98%) | 89.20% (± 0.98%) | ✅ |
+| Dynamic avg duration | 168.31s (± 3.32s) | 168.31s (± 3.32s) | ✅ |
+| Dynamic avg waiting | 3.04s (± 3.11s) | 3.04s (± 3.11s) | ✅ |
+| Dynamic stranded | 15.00 (± 0.00) | 15.00 (± 0.00) | ✅ |
+| Fulfillment gain | +18.40pp | +18.40pp | ✅ |
+| Delivery time saved | 72.02s | 72.02s | ✅ |
+
+### The simulation is bit-for-bit deterministic
+
+`d3a645c` is labelled "fresh simulation run", and the diff is only ~4 lines per
+file. That is not a partial commit — it is the evidence. Re-running the whole
+N=5 experiment on 2026-09-08 reproduced **every trip record byte-for-byte**; the
+only changes were the generation timestamp and the TraCI port:
+
+```diff
+-<!-- generated on 2026-09-02T21:25:07.976008+05:45 by Eclipse SUMO sumo 1.27.1
++<!-- generated on 2026-09-08T16:45:38.154115+05:45 by Eclipse SUMO sumo 1.27.1
+-        <remote-port value="57516"/>
++        <remote-port value="59472"/>
+```
+
+So all figures in this changelog, derived from the pre-`d3a645c` output, remain
+valid against the post-`d3a645c` output.
+
+### Merge resolution
+
+One conflict: both branches added `sumo_simulation/scripts/verify_delivery_integrity.py`.
+**Pratik's version was kept** — it is functionally complete (N=5 aggregation,
+original-vs-corrected columns, static control, false-delivery listing) and is the
+version his own commit references. The audit version added only CLI ergonomics
+(`--seeds`, `--single-run`, `--json`) and was dropped rather than overwrite a
+teammate's committed file.
+
+`evaluate_results.py` and `reports/final_integration_report.md` auto-merged
+cleanly, but the result was **semantically stale** — documents written during the
+audit still described both defects as unfixed. Reconciled by hand:
+
+- `README.md` — the `lda_pipeline` defect section removed; stages 1–2 unblocked.
+- `reports/final_integration_report.md` — the audit's "unresolved" correction
+  notice replaced with a revision note recording the pre-fix values, so anyone
+  holding an older draft or slide deck knows what to replace. §4 corrected.
+- `sumo_simulation/README.md` — "Reading the metrics" rewritten to describe the
+  fixed state, keeping the history and adding the caveat below.
+- `sumo_simulation/scripts/evaluate_results.py` — the audit's provenance header
+  said the report's counts were inflated; now says they are filtered.
+
+### Follow-ups introduced by the merge
+
+- **The false-delivery filter is opt-in.** `parse_tripinfo(path, n)` without
+  `route_file=` still returns the old inflated counts (deliberate backward
+  compatibility). The three in-repo callers all pass it, but any new caller that
+  forgets will silently reproduce the original defect. Worth making the
+  parameter required once nothing depends on the old signature.
+- **`false_deliveries` is computed but never returned** (`evaluate_results.py`
+  line 91). Surfacing it in the returned dict would let the count appear in the
+  generated report instead of only in `verify_delivery_integrity.py`.
+- The audit's `tests/` suite passes unchanged against the merged tree (69 tests),
+  including the four that pin the phantom-arrival counts in the raw XML.
+
+---
+
+## Verified after the merge — three previously-blocked checks now closed
+
+`b02e28e` supplied the NMF artifacts the audit pass could not see. All three
+checks that were left open are now done, against real source data.
+
+### 1. Model identity — confirmed
+
+`lda_pipeline/models/selected/metadata.json`:
+`model_type: "sklearn_nmf"`, `k: 30`, `num_docs: 10910`, `vocab_size: 2251`,
+`init: "nndsvda"`, `random_state: 42`. Matches the brief exactly (NMF, not LDA).
+
+### 2. Topic → class breakdown — confirmed exactly, all 30 topics
+
+The audit brief asked for this to be re-counted against the live
+`topic_schema.json` rather than trusted. Done — every class and every topic id
+matches:
+
+| Class | topic_schema.json | Brief | Topic ids |
+|---|---|---|---|
+| sympathy_and_support | 15 | 15 | 0,2,3,4,5,6,9,12,13,14,17,22,23,25,28 |
+| donation_and_volunteering | 5 | 5 | 1,16,19,26,29 |
+| injured_or_dead_people | 2 | 2 | 7,21 |
+| displaced_and_evacuations | 2 | 2 | 8,11 |
+| caution_and_advice | 2 | 2 | 18,24 |
+| missing_and_found_people | 2 | 2 | 20,27 |
+| response_efforts | 1 | 1 | 10 |
+| not_humanitarian | 1 | 1 | 15 |
+| **Total** | **30** | **30** | |
+
+The four zero-topic classes are confirmed absent from the schema entirely:
+`requests_or_needs`, `infrastructure_and_utilities_damage`,
+`other_relevant_information`, `personal_update`. **The corrected "15 topics" for
+`sympathy_and_support` is right — the old "14" was indeed a documentation-only
+error.**
+
+### 3. Demand proportions — reproduced from the real confusion matrix
+
+`compute_demand_proportions.py` (as hardened in [CHANGE-2]) run against the real
+`alignment_results.json` reproduces the committed
+`demand/real_demand_proportions.json` **exactly**:
+
+```
+total documents      : 10910      (committed: 10910)
+actionable           : 4478       (committed: 4478)
+non-actionable       : 6432       (committed: 6432)
+raw counts           : {'ambulance': 2882, 'cargo_truck': 752, 'first_responder': 844}
+proportions          : {'ambulance': 0.6436, 'cargo_truck': 0.1679, 'first_responder': 0.1885}
+descoped (road_dmg)  : {}
+EXACT MATCH: True
+```
+
+`descoped == {}` also confirms empirically what [CHANGE-2] could previously only
+argue from the topic counts: the `road_damage_signal` path carries **zero**
+documents, so closing that leak changed nothing about the published demand split.
+
 ### [NOT-DONE-1] Environment constraint — the simulations could not be re-run
 
 This machine has **no SUMO installation** and no `seaborn`:
@@ -17,9 +152,16 @@ $ python --version                        -> Python 3.13.13
 ```
 
 So `generate_demand.py`, `run_simulation.py`, `run_statistical_replication.py`
-and `generate_visualizations.py` **were not executed**, and
-`compute_demand_proportions.py` could not run for the separate reason in
-[FLAGGED-2].
+and `generate_visualizations.py` **were not executed**. (`compute_demand_proportions.py`
+was also blocked at the time, for the separate reason in [FLAGGED-2]; after the
+merge it runs and reproduces the committed output exactly — see "Verified after
+the merge" above.)
+
+Pratik's `d3a645c` does re-run the full N=5 experiment on a machine with SUMO,
+which independently confirms `run_simulation.py` and
+`run_statistical_replication.py` still work — but that was run against **his**
+copies of those scripts, before this branch's robustness edits. The edited
+versions still need one end-to-end run.
 
 Everything below was instead verified against the **committed raw simulation
 output** (`output/tripinfo_*.xml`, `demand/*.rou.xml`, `network/kathmandu.net.xml`).
@@ -35,8 +177,9 @@ with SUMO before this branch is merged.
 
 ### [FLAGGED-1] Dynamic-mode metrics count abandoned missions as successful deliveries
 
-**Status: reported, NOT fixed. The simulation logic is deliberately unchanged.**
-This needs a team decision, not a silent patch.
+**Status: RESOLVED in `20c4784` (Pratik), via option (c) below — the accounting
+was fixed in `parse_tripinfo`, leaving the simulation logic untouched. The
+analysis below is kept as the record of how the defect was found and quantified.**
 
 **What is wrong.** `evaluate_results.py` treats every `<tripinfo>` record as a
 completed delivery:
@@ -151,6 +294,12 @@ the cheapest correct fix if the team wants one set of numbers.
 ---
 
 ### [FLAGGED-2] `lda_pipeline/` is not in the repository
+
+**Status: RESOLVED in `b02e28e` (Pratik) — the gitlink was replaced with 4,328
+lines of tracked files, including `models/selected/topic_schema.json`,
+`alignment_results.json` and `metadata.json`. This unblocked three verifications
+that the audit pass had to leave open; their results are in the new
+"Verified after the merge" section below.**
 
 `lda_pipeline` is recorded as a **submodule gitlink** to commit
 `403a711157a643be7ff407fa40dc2617fe7d29fa`, but there is **no `.gitmodules`

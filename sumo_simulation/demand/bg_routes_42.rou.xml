@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-09-02 21:25:05.993763 by Eclipse SUMO randomTrips.py v1_27_1+0000-7717f2379d9
+<!-- generated on 2026-09-08 16:45:36.282436 by Eclipse SUMO randomTrips.py v1_27_1+0000-7717f2379d9
 <configuration>
     <net-file value="D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\network\kathmandu.net.xml"/>
     <output-trip-file value="D:\Learning\!Coventry University\SEM 1\AML\Group Project\Codebase\nepal-earthquake-relief-simulation\sumo_simulation\demand\bg_trips_42.rou.xml"/>
@@ -12,7 +12,7 @@
 </configuration>
 -->
 
-<!-- generated on 2026-09-02T21:25:05.416825+05:45 by Eclipse SUMO duarouter 1.27.1
+<!-- generated on 2026-09-08T16:45:35.925822+05:45 by Eclipse SUMO duarouter 1.27.1
 <duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>

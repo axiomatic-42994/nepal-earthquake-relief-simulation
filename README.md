@@ -4,52 +4,12 @@ This repository contains the end-to-end data science and simulation pipeline for
 analyzing humanitarian needs following the 2015 Nepal earthquake and simulating
 the dispatch of relief vehicles through the damaged road network.
 
-## ⚠️ Known repository defect: `lda_pipeline/` is not actually here
-
-`lda_pipeline/` is recorded in git as a **submodule gitlink** pointing at commit
-`403a711157a643be7ff407fa40dc2617fe7d29fa`, but the repository has **no
-`.gitmodules` file**, so the submodule was never registered with a URL. The
-directory is empty in every checkout, and git cannot recover it:
-
-```
-$ git submodule status
-fatal: no submodule mapping found in .gitmodules for path 'lda_pipeline'
-
-$ git submodule update --init lda_pipeline
-fatal: No url found for submodule path 'lda_pipeline' in .gitmodules
-```
-
-Consequences, all of which affect the whole team:
-
-- The NLP half of the project (Yashodeep's NMF pipeline) is **not represented in
-  this repository at all**, which matters directly for the report's
-  individual-contributions section.
-- `alignment_results.json` and `topic_schema.json` are absent, so
-  `sumo_simulation/scripts/compute_demand_proportions.py` cannot be run and the
-  topic → class breakdown cannot be re-verified from source here.
-- The pipeline is **not reproducible end to end from a clean checkout**. Only
-  stages 2 onward can be run, from the committed
-  `demand/real_demand_proportions.json`.
-
-**To fix** (needs the URL of the NMF repository from Yashodeep):
-
-```bash
-git rm --cached lda_pipeline
-git submodule add <url-of-nmf-repo> lda_pipeline
-git -C lda_pipeline checkout 403a711157a643be7ff407fa40dc2617fe7d29fa
-git add .gitmodules lda_pipeline
-```
-
-Vendoring the NMF outputs directly (committing `alignment_results.json` and
-`topic_schema.json` into this repo) is the simpler alternative if the pipeline
-does not need to be re-runnable here — but it should be done as its own commit,
-attributed to Yashodeep, not folded into unrelated work.
-
 ## Repository Structure
 
 - `lda_pipeline/` — (Authored by Yashodeep) The NMF topic-modeling pipeline that
-  processes tweets into disaster-related themes and classes. **Currently empty —
-  see the defect note above.**
+  processes tweets into disaster-related themes and classes, plus the selected
+  model's outputs under `models/selected/` (`topic_schema.json`,
+  `alignment_results.json`, `metadata.json`).
 - `sumo_simulation/` — (Authored by Pratik) The SUMO/TraCI traffic simulation,
   dynamic pathfinding logic, and statistical evaluation scripts.
 - `interface/` — The integration layer connecting the NLP output to the
@@ -81,18 +41,19 @@ work from the committed simulation output.
 ## How to Run End-to-End
 
 ### 1. Run the NLP Pipeline
-Navigate to `lda_pipeline/` and follow its README to train the NMF model and
-generate `alignment_results.json` and `topic_schema.json`.
-**Blocked until the submodule defect above is resolved.**
+Navigate to `lda_pipeline/` and follow `INSTRUCTIONS.md` to train the NMF model
+and regenerate `models/selected/{alignment_results,topic_schema,metadata}.json`.
+The selected model's outputs are committed, so this stage only needs re-running
+if the model itself changes.
 
 ### 2. Generate the Demand Proportions
 ```bash
 cd sumo_simulation
 python scripts/compute_demand_proportions.py
 ```
-Reads the NMF confusion matrix and writes
-`demand/real_demand_proportions.json`. **Also blocked on stage 1** — the
-committed output file is what the rest of the pipeline currently runs on.
+Reads `lda_pipeline/models/selected/alignment_results.json` and writes
+`demand/real_demand_proportions.json`. Verified to reproduce the committed file
+exactly: 2,882 / 844 / 752 documents → 0.6436 / 0.1885 / 0.1679.
 
 Validate it against the interface contract:
 ```bash

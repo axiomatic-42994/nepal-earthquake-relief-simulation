@@ -2,9 +2,9 @@
 
 **Drafting aid, not report copy.** Every figure below was re-derived from the
 committed artifacts during the audit pass on branch
-`audit/full-optimization-pass`. Anything that could **not** be verified from this
-repository is marked **[UNVERIFIED HERE]** with the reason. Read `CHANGELOG.md`
-entry **[FLAGGED-1]** before quoting any dynamic-mode performance number.
+`audit/full-optimization-pass`, including the NMF outputs under
+`lda_pipeline/models/selected/`. Dynamic-mode figures are the **corrected**
+ones — see §5 and `CHANGELOG.md` entry **[FLAGGED-1]** for what changed and why.
 
 ---
 
@@ -54,15 +54,25 @@ receive any of the 30 topics; `requests_or_needs`,
 `infrastructure_and_utilities_damage`, `other_relevant_information` and
 `personal_update` receive none.
 
-**Topic → class distribution** (15/5/2/2/2/2/1/1 across the eight populated
-classes, 30 total). **[UNVERIFIED HERE]** — `topic_schema.json` is not present in
-this repository (see §7). The four *dispatch-relevant* assignments are recorded
-in `sumo_simulation/vehicles/topic_vehicle_map.json` and were confirmed there:
-T7/T21 → `injured_or_dead_people`, T20/T27 → `missing_and_found_people`,
-T8/T11 → `displaced_and_evacuations`, and none for `requests_or_needs`.
+**Topic → class distribution**, verified topic-by-topic against
+`lda_pipeline/models/selected/topic_schema.json`:
 
-**Alignment quality.** Macro F1 ≈ 0.0808, accuracy ≈ 13.3%.
-**[UNVERIFIED HERE]** — `alignment_results.json` is absent. This is a disclosed
+| Class | Topics | Topic ids |
+|---|---|---|
+| `sympathy_and_support` | 15 | 0, 2, 3, 4, 5, 6, 9, 12, 13, 14, 17, 22, 23, 25, 28 |
+| `donation_and_volunteering` | 5 | 1, 16, 19, 26, 29 |
+| `injured_or_dead_people` | 2 | 7, 21 |
+| `displaced_and_evacuations` | 2 | 8, 11 |
+| `caution_and_advice` | 2 | 18, 24 |
+| `missing_and_found_people` | 2 | 20, 27 |
+| `response_efforts` | 1 | 10 |
+| `not_humanitarian` | 1 | 15 |
+| **Total** | **30** | |
+
+Model identity confirmed from `metadata.json`: `sklearn_nmf`, k = 30,
+`num_docs` = 10,910, vocabulary 2,251, `init = nndsvda`, `random_state = 42`.
+
+**Alignment quality.** Macro F1 ≈ 0.0808, accuracy ≈ 13.3%. This is a disclosed
 limitation of the NMF result, not a defect to be corrected: unsupervised topics
 are not obliged to align to a pre-existing label taxonomy, and reporting the weak
 alignment honestly is more informative than tuning until it looks better.
@@ -196,9 +206,10 @@ is meant.
 | Average waiting time | 87.27s (± 24.03s) |
 | Stranded vehicles | 15.20 (± 0.40) |
 
-**Dynamic rerouting (N=5) — two accounting conventions:**
+**Dynamic rerouting (N=5).** Quote the right-hand column — it is what the
+pipeline now produces:
 
-| Metric | As currently computed | Delivery-verified |
+| Metric | Pre-fix (do not quote) | Current |
 |---|---|---|
 | Fulfillment rate | 95.87% (± 0.98%) | **89.20% (± 0.98%)** |
 | Average delivery duration | 157.13s (± 3.09s) | **168.31s (± 3.32s)** |
@@ -206,13 +217,14 @@ is meant.
 | Stranded vehicles | 5.00 (± 0.00) | **15.00 (± 0.00)** |
 | Fulfillment gain over static | +25.07pp | **+18.40pp** |
 
-The two columns differ because `traci.vehicle.remove()` still causes SUMO to emit
-a `<tripinfo>` record, so an abandoned mission is currently indexed as a
-completed one — typically with `duration = 1.00s`, which also clears the 300s
-threshold. Static mode performs no removals, so the bias is one-sided. The
-delivery-verified column counts only vehicles whose recorded arrival lane lies on
-the final edge of their assigned route. Full derivation in `CHANGELOG.md`
-**[FLAGGED-1]**; reproduce with `scripts/verify_delivery_integrity.py`.
+The columns differ because `traci.vehicle.remove()` still causes SUMO to emit a
+`<tripinfo>` record, so an abandoned mission was indexed as a completed one —
+typically with `duration = 1.00s`, which also cleared the 300s threshold. Static
+mode performs no removals, so the bias was one-sided. `parse_tripinfo` now counts
+a record only when its arrival lane lies on the final edge of the vehicle's
+assigned route. Two independent derivations produced identical corrected values.
+Full account in `CHANGELOG.md` **[FLAGGED-1]**; reproduce with
+`scripts/verify_delivery_integrity.py`.
 
 **What the study supports.** Dynamic rerouting produces a large and consistent
 improvement in on-time delivery (+18.4 percentage points) and delivery speed
@@ -220,9 +232,9 @@ improvement in on-time delivery (+18.4 percentage points) and delivery speed
 → 3.04s, −96.5%). The effect is stable across all five seeds.
 
 **What it does not support.** The claim that rerouting rescues ~38 additional
-vehicles from being trapped. Under the delivery-verified count both conditions
-deliver ~135 of 150; the apparent rescue is an artifact of the removal
-accounting.
+vehicles from being trapped, which appeared in pre-fix drafts. Under the
+delivery-verified count both conditions deliver ~135 of 150; the apparent rescue
+was an artifact of the removal accounting.
 
 **A genuine negative finding worth reporting.** On seed 42 the sets of failed
 deliveries in the two conditions are **completely disjoint**. All 10 vehicles the
@@ -269,10 +281,11 @@ was used for the committed runs.
 
 **Found during the audit:**
 
-4. **The NMF pipeline is not in this repository.** `lda_pipeline/` is a submodule
-   gitlink with no `.gitmodules` entry, so it is empty in every checkout and
-   cannot be fetched. Stage 1 is therefore not reproducible here, and
-   `topic_schema.json` / `alignment_results.json` could not be re-verified.
+4. **Delivery accounting was wrong until commit `20c4784`.** Abandoned missions
+   were counted as completed deliveries because SUMO writes a `<tripinfo>`
+   record for TraCI-removed vehicles. Fixed, but any draft or slide deck
+   produced before that commit carries the inflated dynamic-mode figures
+   (95.87% / 157.13s / 5.00 stranded) and needs updating.
 5. **Fleet saturation and rubble-stranding are conflated** in the stranded count.
    Three static-mode requests on seed 404 never departed at all because the fleet
    cap never freed up; they are counted alongside vehicles genuinely stuck.
