@@ -30,12 +30,44 @@ route's final edge), with no coordination:
 | Fulfillment gain | +18.40pp | +18.40pp | ✅ |
 | Delivery time saved | 72.02s | 72.02s | ✅ |
 
+### Provenance of the reported numbers — who ran what, on which files
+
+**This audit never executed SUMO.** There is no SUMO on this machine
+(`SUMO_HOME` unset; `traci`/`sumolib` unimportable), so every figure in this
+changelog was computed by running the *evaluation* code over committed tripinfo
+XML — not by running the simulation.
+
+The fresh simulation run was **Pratik's**, on his machine, committed as
+`d3a645c`. The 10 files backing the reported numbers are the ones that commit
+wrote, and they are what is on disk now:
+
+```
+output/tripinfo_{dynamic,static}_{42,101,202,303,404}.xml
+  last written by: d3a645c "chore: update background routes and tripinfo output
+                            with fresh simulation run"
+```
+
+Each file records its own seed and generation time internally, and they are
+staggered across a single sequential session — consistent with ten real runs,
+not copies:
+
+```
+tripinfo_dynamic_42.xml    seed=42   generated=2026-09-08T16:45:38  routes=bg_routes_42.rou.xml
+tripinfo_static_42.xml     seed=42   generated=2026-09-08T16:47:34  routes=bg_routes_42.rou.xml
+tripinfo_dynamic_101.xml   seed=101  generated=2026-09-08T16:49:09  routes=bg_routes_101.rou.xml
+tripinfo_static_101.xml    seed=101  generated=2026-09-08T16:51:30  routes=bg_routes_101.rou.xml
+...
+tripinfo_static_404.xml    seed=404  generated=2026-09-08T17:03:37  routes=bg_routes_404.rou.xml
+```
+
+Seeds match the documented 42 / 101 / 202 / 303 / 404 in all ten files.
+
 ### The simulation is bit-for-bit deterministic
 
-`d3a645c` is labelled "fresh simulation run", and the diff is only ~4 lines per
-file. That is not a partial commit — it is the evidence. Re-running the whole
-N=5 experiment on 2026-09-08 reproduced **every trip record byte-for-byte**; the
-only changes were the generation timestamp and the TraCI port:
+`d3a645c`'s diff is only ~4 lines per file. That is not a partial commit — it is
+the evidence. Re-running the whole N=5 experiment reproduced **every trip record
+byte-for-byte**; the only changes were the generation timestamp and the TraCI
+port:
 
 ```diff
 -<!-- generated on 2026-09-02T21:25:07.976008+05:45 by Eclipse SUMO sumo 1.27.1
@@ -44,8 +76,12 @@ only changes were the generation timestamp and the TraCI port:
 +        <remote-port value="59472"/>
 ```
 
-So all figures in this changelog, derived from the pre-`d3a645c` output, remain
-valid against the post-`d3a645c` output.
+This is expected, and it is a good property rather than a shortcut: the relief
+demand, the routes, the damage schedule and the background traffic are all
+seeded, and SUMO is deterministic given identical inputs and seed. Because the
+records are identical, figures computed before `d3a645c` remain valid against the
+post-`d3a645c` files — but the numbers quoted in this changelog were recomputed
+directly from the current on-disk files regardless.
 
 ### Merge resolution
 
@@ -139,6 +175,51 @@ EXACT MATCH: True
 argue from the topic counts: the `road_damage_signal` path carries **zero**
 documents, so closing that leak changed nothing about the published demand split.
 
+### Test execution — what runs here, what does not, with counts
+
+Run on this machine, 2026-09-08:
+
+| Suite | Result |
+|---|---|
+| `python -m unittest discover -s tests` | **69 passed, 0 failed** |
+| ├ `tests/test_schema_validator.py` | 19 passed |
+| ├ `tests/test_demand_conversion.py` | 19 passed |
+| └ `tests/test_rerouting_logic.py` | 31 passed |
+| 13-case validator battery (exit codes) | **13 passed, 0 failed** |
+| `interface/validate_lda_output.py` on the real demand file | `SUCCESS`, exit 0 |
+| `lda_pipeline/tests/` (Yashodeep's, 3 modules) | **0 collected — 3 collection ERRORS** |
+
+The audit suite passes in full. **`lda_pipeline/tests/` cannot run here at all**:
+
+```
+ERROR lda_pipeline\tests\test_clean_text.py
+ERROR lda_pipeline\tests\test_evaluation.py
+ERROR lda_pipeline\tests\test_load_crisisbench.py
+E   ModuleNotFoundError: No module named 'datasets'
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!
+3 errors in 1.49s
+```
+
+Cause: the NMF half's dependencies are not installed here. Availability check
+against `lda_pipeline/requirements.txt`:
+
+| Package | Status |
+|---|---|
+| `datasets`, `sklearn`, `gensim`, `nltk`, `seaborn` | **missing** |
+| `traci`, `sumolib` | **missing** (ship with SUMO, which is not installed) |
+| `pandas` 3.0.3, `numpy` 2.5.1, `matplotlib` 3.11.0, `yaml` 6.0.3 | present |
+
+This is a **fixable environment gap, not a permanent boundary** — `pip install -r
+lda_pipeline/requirements.txt` would resolve the NMF test collection errors.
+It was not done because installing a heavy ML stack (`sentence-transformers`,
+`spacy`, `gensim`) is a change to the machine rather than to the repository, and
+those tests cover a teammate's modelling code that this audit deliberately did
+not touch. **Stated plainly: three test modules shipped in this repository have
+never been executed by this audit, and their pass/fail status here is unknown.**
+
+SUMO is the harder gap: `traci`/`sumolib` cannot be pip-installed, so the four
+SUMO-dependent scripts stay unexecutable here regardless of pip.
+
 ### [NOT-DONE-1] Environment constraint — the simulations could not be re-run
 
 This machine has **no SUMO installation** and no `seaborn`:
@@ -224,10 +305,11 @@ The damage is threefold and all in the same direction:
 returns 0), so only the dynamic arm — the one whose superiority is being claimed —
 is inflated.
 
-**Worse: dynamic mode abandons vehicles that static mode delivers.** On seed 42
-the two failure sets are completely disjoint. All 10 vehicles the dynamic
-controller deletes complete successfully in static mode by crawling through the
-0.1 m/s rubble:
+**Worse: dynamic mode abandons vehicles that static mode records as delivered.**
+On seed 42 the two failure sets are completely disjoint. All 10 vehicles the
+dynamic controller deletes are recorded as arriving in static mode. **But read
+[NEW-LIMIT-1] before treating that as a win for static mode: 9 of those 10
+arrivals are SUMO teleports, not driven journeys.**
 
 ```
 id                   static dur  static len  static reached?   dyn dur  dyn len
@@ -601,13 +683,39 @@ Two tests are worth calling out as guards rather than coverage:
 
 ## New limitations discovered
 
-**[NEW-LIMIT-1] Dynamic mode's abandonment policy can be worse than doing nothing.**
-On seed 42 all 10 vehicles dynamic mode abandons are delivered successfully by
-static mode. The controller treats "no reroute avoids the rubble" as "destination
-unreachable", but a fully blocked edge is 0.1 m/s, not impassable — vehicles can
-and do crawl through in 405–1625s. This is a genuine finding about the *policy*,
-independent of the accounting defect, and it is arguably the more interesting
-result: naive rerouting can destroy deliveries that patience would have completed.
+**[NEW-LIMIT-1] Neither mode genuinely delivers to a destination on a blocked edge.**
+*(Corrected 2026-09-08 after inspecting the raw XML — an earlier version of this
+entry said the static-mode vehicles "crawl through the rubble and genuinely
+arrive". That is wrong for 9 of the 10.)*
+
+All 10 abandoned vehicles share one property: **edge `1194719931` is their
+destination**, not merely a via-edge on their route. No reroute can ever avoid a
+vehicle's own destination, so the dynamic controller's abandonment is structurally
+guaranteed for them, not a routing failure.
+
+What static mode does instead is not a delivery either. `--time-to-teleport 300`
+is set, so a vehicle stuck for 300s is teleported forward by SUMO. Checking
+`vaporized=` on the seed-42 static records:
+
+| Vehicle | waitingTime | vaporized= |
+|---|---|---|
+| ambulance_4, _16, _58, _68, first_responder_126 | 301.00 | `teleport` |
+| cargo_truck_115 | 408.00 | `teleport` |
+| first_responder_131 | 726.00 | `teleport` |
+| ambulance_25 | 1159.00 | `teleport` |
+| ambulance_20 | 1448.00 | `teleport` |
+| cargo_truck_102 | 1236.00 | `` (drove through) |
+
+**9 of 10 static "deliveries" to the blocked edge are teleports.** So the honest
+reading is not "patience beats rerouting" — it is that both arms mis-handle a
+destination that lands on rubble: dynamic abandons it, static teleports through
+it. Only `cargo_truck_102` genuinely drove the final stretch at 0.1 m/s.
+
+Implication for the report: the +18.40pp gain is still sound, because it compares
+like with like across both arms. But the *interpretation* "dynamic rerouting
+destroys deliveries static mode completes" should not be made. If those 10
+teleport-assisted arrivals were also excluded, static-mode delivered would fall
+from 134.80 to ~125.
 
 **[NEW-LIMIT-2] Fleet saturation and rubble-stranding are conflated.**
 The final heartbeat of the static seed-404 run reads `Queued: 3` — three dispatch

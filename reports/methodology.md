@@ -236,13 +236,19 @@ vehicles from being trapped, which appeared in pre-fix drafts. Under the
 delivery-verified count both conditions deliver ~135 of 150; the apparent rescue
 was an artifact of the removal accounting.
 
-**A genuine negative finding worth reporting.** On seed 42 the sets of failed
-deliveries in the two conditions are **completely disjoint**. All 10 vehicles the
-dynamic controller abandons complete successfully in the static baseline, by
-crawling through 0.1 m/s rubble in 405–1625s. Because a "fully blocked" edge is
-slow rather than impassable, treating "no detour available" as "destination
-unreachable" discards deliveries that patience would have completed. Naive
-rerouting is not uniformly better than no rerouting.
+**A genuine limitation worth reporting.** All 10 vehicles the dynamic controller
+abandons share one property: edge `1194719931` is their **destination**, not just
+a via-edge. No reroute can avoid a vehicle's own destination, so abandonment is
+structurally guaranteed for them rather than a routing failure.
+
+Static mode records all 10 as arriving — but `--time-to-teleport 300` is active,
+and the raw `vaporized=` field shows **9 of the 10 were teleported by SUMO** after
+being stuck 301–1448s. Only `cargo_truck_102` drove the final stretch unaided.
+
+So neither arm handles a rubble-sited destination honestly: dynamic abandons it,
+static teleports through it. This does not affect the +18.40pp comparison, which
+treats both arms identically, but it does mean the study cannot claim that
+rerouting destroys deliveries patience would have completed.
 
 ---
 

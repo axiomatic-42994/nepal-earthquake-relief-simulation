@@ -188,12 +188,16 @@ Two caveats worth keeping in mind:
 - **Fleet capacity**: Max 8 vehicles per type active simultaneously (24 total).
   Remaining dispatches are queued and released as vehicles complete trips.
 - **Unreachable destinations**: If TraCI rerouting cannot find any path that
-  avoids fully blocked edges, the vehicle is logged as UNDELIVERABLE and
-  removed from the simulation. Note this is an *abandonment* policy: in static
-  mode those same vehicles crawl through the 0.1 m/s rubble and do eventually
-  arrive (durations 405–1625s on seed 42). Dynamic mode giving up on them is a
-  modelling choice, not a physical impossibility — and see "Reading the metrics"
-  for how it is currently mis-counted.
+  avoids fully blocked edges, the vehicle is logged as UNDELIVERABLE and removed
+  from the simulation. On the committed runs this fires for exactly 10 vehicles,
+  and for a structural reason: edge `1194719931` is their **destination**, not a
+  via-edge on the way to it. No reroute can avoid a vehicle's own destination, so
+  these were never recoverable by better routing.
+  Static mode records all 10 as arriving, but that is not a fair control — with
+  `--time-to-teleport 300` active, **9 of the 10 arrive with
+  `vaporized="teleport"`** after stalling 301–1448s. Only `cargo_truck_102`
+  actually drives the last stretch at 0.1 m/s. Neither arm models a
+  rubble-sited destination honestly.
 - **Non-binary damage**: Edges can be FULLY BLOCKED (speed → 0.1 m/s) or
   PARTIALLY BLOCKED (speed → 2.5 m/s) with different delay impacts. Only fully
   blocked edges trigger rerouting; partially blocked ones stay routable.

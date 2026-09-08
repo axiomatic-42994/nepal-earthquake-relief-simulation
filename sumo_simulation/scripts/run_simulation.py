@@ -283,10 +283,14 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
             # 300s fulfilment threshold and drags the mean duration down.
             #
             # Measured on the committed N=5 outputs: 10 vehicles per dynamic run are
-            # removed here, all blocked by the single edge '1194719931'. In STATIC mode
-            # the same 10 vehicles crawl through the 0.1 m/s rubble and genuinely arrive
-            # (durations 405–1625s). Static mode performs no removals at all, so the bias
-            # is one-sided and flatters dynamic mode.
+            # removed here. Edge '1194719931' is their DESTINATION, not just a via-edge,
+            # so no reroute could ever avoid it — abandonment is structurally guaranteed
+            # for them. Static mode performs no removals at all, so the bias is one-sided.
+            #
+            # Static mode is not a clean control for these 10 either: --time-to-teleport
+            # 300 is set, and 9 of the 10 arrive with vaporized="teleport" after stalling
+            # 301-1448s. Only cargo_truck_102 drives the last stretch at 0.1 m/s. Do not
+            # read "static delivered them" as "patience beats rerouting".
             #
             # Delivery-verified figures (arrival edge == intended destination edge) are
             # produced by scripts/verify_delivery_integrity.py. This logic is left AS IS
