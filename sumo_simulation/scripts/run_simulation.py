@@ -25,14 +25,89 @@ import time
 # Ensure SUMO tools are in path
 if 'SUMO_HOME' in os.environ:
     sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools'))
-import traci
+
+try:
+    import traci
+except ImportError:
+    raise SystemExit(
+        "ERROR: could not import 'traci'.\n"
+        "traci ships with SUMO rather than pip. Set the SUMO_HOME environment\n"
+        "variable to your SUMO installation directory (the one containing\n"
+        "'tools/' and 'bin/') and rerun.\n"
+        f"SUMO_HOME is currently {'unset' if 'SUMO_HOME' not in os.environ else os.environ['SUMO_HOME']}."
+    )
+
+
+def resolve_sumo_binary(use_gui):
+    """
+    Locate the SUMO executable, with an actionable error if SUMO_HOME is unset
+    or the binary is missing. Previously this indexed os.environ directly and
+    hardcoded a .exe suffix, so a missing SUMO_HOME surfaced as a bare KeyError
+    and the script could not run outside Windows.
+    """
+    sumo_home = os.environ.get('SUMO_HOME')
+    if not sumo_home:
+        raise SystemExit(
+            "ERROR: SUMO_HOME is not set. Point it at your SUMO installation\n"
+            "directory (the one containing 'bin/' and 'tools/') and rerun."
+        )
+
+    stem = 'sumo-gui' if use_gui else 'sumo'
+    suffix = '.exe' if os.name == 'nt' else ''
+    binary = os.path.join(sumo_home, 'bin', stem + suffix)
+
+    if not os.path.exists(binary):
+        raise SystemExit(
+            f"ERROR: SUMO binary not found at {binary}.\n"
+            f"Check that SUMO_HOME ({sumo_home}) points at a complete SUMO install."
+        )
+    return binary
 
 
 def load_damage_schedule(damage_file_path):
     """Load the JSON schedule of earthquake road damage events."""
-    with open(damage_file_path, 'r') as f:
+    with open(damage_file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
     return data.get('blockage_events', [])
+
+
+# --------------------------------------------------------------------------
+# Pure decision predicates.
+#
+# These carry the control-loop's decision logic with no TraCI calls in them, so
+# they can be unit-tested without a running SUMO (see tests/test_rerouting_logic.py).
+# They are extracted verbatim from the inline expressions they replace; the
+# behaviour of the loop is unchanged.
+# --------------------------------------------------------------------------
+
+def route_is_blocked(route, route_index, blocked_edges):
+    """
+    True if any edge the vehicle has yet to traverse is fully blocked.
+
+    `route_index` is the vehicle's position along `route`, so the slice starts at
+    the edge it is currently on. That edge is deliberately included: a vehicle
+    already sitting on rubble still counts as blocked.
+
+    Only FULLY blocked edges belong in `blocked_edges`. Partially blocked edges
+    are merely slowed (2.5 m/s) and must stay routable, so the caller never adds
+    them to the set.
+    """
+    return any(edge in blocked_edges for edge in route[route_index:])
+
+
+def is_due(request, sim_time):
+    """True if a queued dispatch request has reached its departure time."""
+    return sim_time >= request['depart']
+
+
+def has_fleet_capacity(vtype, active_counts, max_fleet, default_cap=100):
+    """
+    True if another vehicle of `vtype` may be released from the dispatch queue.
+
+    Capacity is per vehicle type, not global: saturating the ambulance fleet must
+    not stop a cargo truck from being dispatched.
+    """
+    return active_counts.get(vtype, 0) < max_fleet.get(vtype, default_cap)
 
 
 def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripinfo,
@@ -43,14 +118,22 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
     damage_events = load_damage_schedule(damage_file)
 
     # Select SUMO binary
-    sumo_binary_name = 'sumo-gui.exe' if use_gui else 'sumo.exe'
-    sumo_binary = os.path.join(os.environ['SUMO_HOME'], 'bin', sumo_binary_name)
+    sumo_binary = resolve_sumo_binary(use_gui)
 
-    # Build command line
-    # For dynamic fleet management, we only pass background routes to SUMO, 
-    # and let TraCI inject the relief vehicles.
-    sumo_route_files = routes_file.split(',')[1] if ',' in routes_file else routes_file
-    
+    # Build command line.
+    # For dynamic fleet management, SUMO is only handed the BACKGROUND routes;
+    # relief vehicles are injected by TraCI from `dispatch_queue` below so the
+    # fleet cap can be enforced. `routes_file` is the comma-joined pair
+    # "<relief routed file>,<background file>" assembled in __main__.
+    route_parts = [p for p in routes_file.split(',') if p]
+    background_parts = [p for p in route_parts if 'relief' not in os.path.basename(p)]
+    if not background_parts:
+        raise SystemExit(
+            f"ERROR: no background route file found in --route-files '{routes_file}'.\n"
+            "Expected '<relief_*_routed.rou.xml>,<background.rou.xml>'."
+        )
+    sumo_route_files = ','.join(background_parts)
+
     cmd = [
         sumo_binary,
         '--net-file', net_file,
@@ -90,8 +173,17 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
     sim_time = 0.0
 
     import xml.etree.ElementTree as ET
-    # Parse dispatch routes manually to control fleet spawning
-    relief_routes_file = [p for p in routes_file.split(',') if 'relief' in p][0]
+    # Parse dispatch routes manually to control fleet spawning.
+    # Match on the basename: the repository directory is itself called
+    # "nepal-earthquake-relief-simulation", so matching 'relief' against the full
+    # path matches every entry and silently relies on ordering.
+    relief_candidates = [p for p in route_parts if 'relief' in os.path.basename(p)]
+    if not relief_candidates:
+        raise SystemExit(
+            f"ERROR: no relief route file found in --route-files '{routes_file}'.\n"
+            "Expected a filename containing 'relief', e.g. 'relief_vehicles_routed.rou.xml'."
+        )
+    relief_routes_file = relief_candidates[0]
     tree = ET.parse(relief_routes_file)
     dispatch_queue = []
     for veh in tree.getroot().findall('vehicle'):
@@ -132,8 +224,8 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
             # Create a list to track which vehicles to remove from queue
             spawned = []
             for req in dispatch_queue:
-                if sim_time >= req['depart']:
-                    if active_dispatch_counts.get(req['type'], 0) < MAX_FLEET.get(req['type'], 100):
+                if is_due(req, sim_time):
+                    if has_fleet_capacity(req['type'], active_dispatch_counts, MAX_FLEET):
                         # Spawn vehicle
                         route_id = f"route_{req['id']}"
                         try:
@@ -181,6 +273,25 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
                         print(f"   --> Edge PARTIALLY BLOCKED / DEGRADED SPEED: {edge_id}")
 
             # 2. If Dynamic Rerouting is enabled, inspect active vehicles and reroute if needed
+            #
+            # !! KNOWN MEASUREMENT DEFECT — READ BEFORE QUOTING ANY DYNAMIC-MODE METRIC !!
+            # The two `traci.vehicle.remove(...)` calls below abandon a mission, but SUMO
+            # still writes a <tripinfo> record for a TraCI-removed vehicle, with `arrival`
+            # set to the removal time. evaluate_results.py counts any tripinfo record as a
+            # completed trip, so each abandoned vehicle is scored as a SUCCESSFUL delivery
+            # — and, because it is removed within ~1s of spawning, as one that beat the
+            # 300s fulfilment threshold and drags the mean duration down.
+            #
+            # Measured on the committed N=5 outputs: 10 vehicles per dynamic run are
+            # removed here, all blocked by the single edge '1194719931'. In STATIC mode
+            # the same 10 vehicles crawl through the 0.1 m/s rubble and genuinely arrive
+            # (durations 405–1625s). Static mode performs no removals at all, so the bias
+            # is one-sided and flatters dynamic mode.
+            #
+            # Delivery-verified figures (arrival edge == intended destination edge) are
+            # produced by scripts/verify_delivery_integrity.py. This logic is left AS IS
+            # so the published runs stay reproducible; do not "fix" it silently — doing so
+            # changes every reported dynamic-mode number.
             if enable_rerouting and active_blocked_edges:
                 active_vehicle_ids = traci.vehicle.getIDList()
 
@@ -192,17 +303,16 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
                         
                         current_route = traci.vehicle.getRoute(veh_id)
                         route_index = traci.vehicle.getRouteIndex(veh_id)
-                        upcoming_edges = current_route[route_index:]
 
-                        if any(edge in active_blocked_edges for edge in upcoming_edges):
+                        if route_is_blocked(current_route, route_index, active_blocked_edges):
                             try:
                                 traci.vehicle.rerouteTraveltime(veh_id, currentTravelTimes=True)
-                                
+
                                 # Check if the newly computed route STILL contains a blocked edge
                                 new_route = traci.vehicle.getRoute(veh_id)
-                                new_upcoming = new_route[traci.vehicle.getRouteIndex(veh_id):]
-                                
-                                if any(edge in active_blocked_edges for edge in new_upcoming):
+                                new_index = traci.vehicle.getRouteIndex(veh_id)
+
+                                if route_is_blocked(new_route, new_index, active_blocked_edges):
                                     # The vehicle could not find a path that avoids the fully blocked edge.
                                     # This means the destination is completely cut off by damage.
                                     print(f"[t={sim_time:.1f}s] UNDELIVERABLE: Vehicle '{veh_id}' destination cut off! Removing from network.", flush=True)
@@ -220,9 +330,10 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
                     except traci.TraCIException:
                         pass
 
-            # Print periodic heartbeat every 900 seconds
-            if step % int(900 / step_length) == 0:
-                running = traci.vehicle.getIDCount()
+            # Print periodic heartbeat every 900 seconds.
+            # max(1, ...) guards a step_length > 900, which would otherwise make
+            # the modulus divide by zero.
+            if step % max(1, int(900 / step_length)) == 0:
                 print(f"[Heartbeat t={sim_time:.0f}s] Active relief vehicles: {sum(active_dispatch_counts.values())} | Queued: {len(dispatch_queue)} | Undeliverable: {undeliverable_count}", flush=True)
 
     finally:
@@ -231,6 +342,14 @@ def run_simulation(net_file, vtypes_file, routes_file, damage_file, output_tripi
         print(f" Simulation Finished at t={sim_time:.1f}s")
         print(f" Total Reroute Interventions: {total_reroute_events}")
         print(f" Unique Vehicles Rerouted:    {len(vehicles_rerouted_set)}")
+        print(f" Missions Abandoned (UNDELIVERABLE): {undeliverable_count}")
+        if undeliverable_count:
+            print(f" NOTE: abandoned missions still appear in {os.path.basename(output_tripinfo)}")
+            print(f"       as completed trips. Use scripts/verify_delivery_integrity.py")
+            print(f"       for delivery-verified metrics.")
+        if dispatch_queue:
+            print(f" WARNING: {len(dispatch_queue)} dispatch requests never left the queue")
+            print(f"          (fleet saturated, or the loop ended before their depart time).")
         print(f" Trip statistics saved to:    {output_tripinfo}")
         print(f"=======================================================\n")
 

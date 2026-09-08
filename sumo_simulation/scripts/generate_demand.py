@@ -1,14 +1,14 @@
 """
 generate_demand.py — Converts NMF-derived demand proportions into SUMO route files.
 
-Takes the real demand proportions JSON (computed from topic_schema.json via
-compute_demand_proportions.py) and produces a .rou.xml file with vehicles
-dispatched from relief depots to affected areas, distributed by the
-renormalized dispatch_category shares.
+Takes the real demand proportions JSON (computed from the NMF pipeline's
+alignment_results.json confusion matrix by compute_demand_proportions.py) and
+produces a .rou.xml file with vehicles dispatched from relief depots to affected
+areas, distributed by the renormalized dispatch_category shares.
 
 For the final integrated pipeline, this consumes real_demand_proportions.json
 (Part D, Path 3 approximation). The old mock_lda_input.json interface is no
-longer used for reported results.
+longer used for reported results, and that file is no longer present in the repo.
 
 Usage:
     python generate_demand.py --demand-input demand/real_demand_proportions.json \\
@@ -19,7 +19,6 @@ Usage:
 """
 
 import json
-import math
 import random
 import argparse
 import os
@@ -28,7 +27,17 @@ import sys
 # Add SUMO tools to path
 if 'SUMO_HOME' in os.environ:
     sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools'))
-import sumolib
+
+try:
+    import sumolib
+except ImportError:
+    raise SystemExit(
+        "ERROR: could not import 'sumolib'.\n"
+        "sumolib ships with SUMO rather than pip. Set the SUMO_HOME environment\n"
+        "variable to your SUMO installation directory (the one containing\n"
+        "'tools/' and 'bin/') and rerun.\n"
+        f"SUMO_HOME is currently {'unset' if 'SUMO_HOME' not in os.environ else os.environ['SUMO_HOME']}."
+    )
 
 
 def find_depot_edges(net, n=3):
@@ -59,6 +68,12 @@ def find_destination_edges(net, n=30, seed=42):
     Find destination edges spread across the network representing
     affected areas/wards. Selects edges distributed across the network
     that are reachable (have at least some connectivity).
+
+    NOTE: `n` is a target, not an exact count. Destinations are drawn evenly
+    from four spatial quadrants at `max(1, n // 4)` each, so the returned list
+    holds `4 * (n // 4)` edges when every quadrant is populated — e.g. n=30
+    yields 28, not 30. The reported results were generated with this behaviour;
+    it is documented rather than changed so the published runs stay reproducible.
     """
     rng = random.Random(seed)
     all_edges = [e for e in net.getEdges()
@@ -157,6 +172,22 @@ def generate_routes(demand_input_path, net_path, output_path, total_vehicles=150
                 'to': dest,
             })
             vehicle_id += 1
+
+    # Per-category counts are rounded independently, so the realised fleet size
+    # can drift from --total-vehicles. It happens to land exactly on 150 for the
+    # published proportions, but say so out loud rather than let a future
+    # distribution silently dispatch the wrong number of vehicles.
+    if actual_total != total_vehicles:
+        print(f"\nWARNING: independent per-category rounding produced {actual_total} "
+              f"vehicles, not the requested {total_vehicles}.")
+        print("         Downstream fulfilment rates are computed against the number of "
+              "vehicles actually written to the route file.")
+
+    if not vehicles:
+        raise ValueError(
+            "No vehicles were generated. Check that 'dispatch_proportions' in "
+            f"{demand_input_path} is non-empty and sums to 1.0."
+        )
 
     # Sort by departure time
     vehicles.sort(key=lambda v: v['depart'])

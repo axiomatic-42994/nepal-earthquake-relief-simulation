@@ -25,34 +25,42 @@ pip install -r requirements.txt
 ## Folder Structure
 
 ```
-nepal_earthquake_sim/
+sumo_simulation/
 ├── network/
 │   ├── kathmandu.osm              # Raw OpenStreetMap export (Kathmandu valley)
-│   └── kathmandu.net.xml          # SUMO network converted via netconvert
+│   └── kathmandu.net.xml          # SUMO network: 1,964 edges, 855 nodes
 ├── vehicles/
 │   ├── vtypes.add.xml             # SUMO vehicle type definitions (ambulance, cargo_truck, first_responder)
-│   └── topic_vehicle_map.json     # Mapping: NLP topic categories → SUMO vehicle types
+│   └── topic_vehicle_map.json     # Mapping: NMF ground-truth classes → SUMO vehicle types
 ├── demand/
-│   ├── mock_lda_input.json        # Placeholder NLP proportions (replaced by real data in Part F)
-│   ├── lda_schema.json            # Schema definition for the NLP→SUMO interface
-│   ├── relief_vehicles.rou.xml    # Generated relief vehicle trips
+│   ├── real_demand_proportions.json    # NMF-derived dispatch proportions (the live interface input)
+│   ├── relief_vehicles.rou.xml         # Generated relief vehicle trips (150: 97/28/25)
 │   ├── relief_vehicles_routed.rou.xml  # Routed relief trips (via duarouter)
-│   └── background_routes.rou.xml  # Stochastic civilian background traffic
+│   ├── background_routes.rou.xml       # Civilian background traffic, single-run (1,500 vehicles)
+│   └── bg_routes_{42,101,202,303,404}.rou.xml  # Per-seed background traffic (1,200 vehicles each)
 ├── damage/
-│   └── road_damage_events.json    # Timed earthquake damage events (edge blockages)
+│   └── road_damage_events.json    # Timed earthquake damage events (7 full, 6 partial blockages)
 ├── scripts/
-│   ├── generate_demand.py         # Converts NLP proportions → SUMO vehicle trip XML
-│   ├── run_simulation.py          # Main TraCI simulation loop (dynamic rerouting or static baseline)
-│   ├── evaluate_results.py        # Parses tripinfo.xml → performance metrics
-│   ├── run_statistical_replication.py  # Runs N seeds for statistical robustness
-│   ├── run_all_windows.py         # Multi-window orchestration (NOT used for final results — see note inside)
-│   └── generate_visualizations.py # Produces charts for report/slides
+│   ├── compute_demand_proportions.py   # NMF alignment_results.json → dispatch proportions
+│   ├── generate_demand.py              # Dispatch proportions → SUMO vehicle trip XML
+│   ├── run_simulation.py               # Main TraCI loop (dynamic rerouting or static baseline)
+│   ├── evaluate_results.py             # Parses tripinfo.xml → performance metrics
+│   ├── verify_delivery_integrity.py    # Delivery-verified metrics (see "Reading the metrics" below)
+│   ├── run_statistical_replication.py  # Runs N=5 seeds for statistical robustness
+│   ├── run_all_windows.py              # Multi-window orchestration — DOES NOT RUN, see note inside
+│   └── generate_visualizations.py      # Produces charts for report/slides
 ├── output/
-│   ├── tripinfo_dynamic.xml       # SUMO trip output — dynamic rerouting mode
-│   ├── tripinfo_static.xml        # SUMO trip output — static baseline mode
+│   ├── tripinfo_dynamic.xml       # Single unseeded run — dynamic rerouting mode
+│   ├── tripinfo_static.xml        # Single unseeded run — static baseline mode
+│   ├── tripinfo_{dynamic,static}_{seed}.xml  # The N=5 replication that produced the reported results
 │   └── visualizations/            # Exported PNG charts
 └── kathmandu_relief.sumocfg       # SUMO configuration file
 ```
+
+Note: `demand/mock_lda_input.json` and `demand/lda_schema.json` appeared in an
+earlier version of this listing. Neither exists any more — the mock interface was
+replaced by `real_demand_proportions.json`, and the schema now lives in
+`interface/demand_schema.md`.
 
 ## How to Run (Step by Step)
 
@@ -101,9 +109,10 @@ Optional flags:
 python scripts/evaluate_results.py
 ```
 
-Reads `output/tripinfo_dynamic.xml` and `output/tripinfo_static.xml`,
-computes fulfillment rate, average delivery time, per-vehicle-type breakdown,
-and outputs a comparison report.
+Reads `output/tripinfo_dynamic.xml` and `output/tripinfo_static.xml` — the
+**single unseeded run**, not the reported N=5 replication — computes fulfillment
+rate, average delivery time and per-vehicle-type breakdown, and writes
+`output/comparison_report.md` and `output/comparison_summary.json`.
 
 ### 5. Statistical Replication (5 seeds)
 
@@ -113,14 +122,52 @@ python scripts/run_statistical_replication.py
 
 Re-runs both modes across seeds [42, 101, 202, 303, 404] with different
 stochastic background traffic each time. Reports mean ± std for all metrics.
+**This step produces the figures quoted in the report.**
 
-### 6. Generate Visualizations
+### 6. Verify Delivery Integrity
+
+```bash
+python scripts/verify_delivery_integrity.py
+```
+
+Re-derives the metrics with abandoned missions excluded — see
+"Reading the metrics" below. Reads committed output only; runs without SUMO.
+
+### 7. Generate Visualizations
 
 ```bash
 python scripts/generate_visualizations.py
 ```
 
-Exports charts to `output/visualizations/`.
+Exports charts to `output/visualizations/`. Note that
+`delivery_time_dist.png` is built from the **single unseeded run**, while
+`replication_*.png` are built from the **N=5 seeded runs**; they are not two
+views of the same experiment.
+
+## Reading the metrics
+
+`evaluate_results.py` counts one `<tripinfo>` record as one completed delivery.
+That is not safe in dynamic mode. When the TraCI controller abandons a vehicle it
+calls `traci.vehicle.remove(...)`, and SUMO still writes a `<tripinfo>` record
+with `arrival` set to the removal time — so an abandoned mission is indexed as a
+completed one, typically with `duration="1.00"`.
+
+Measured on the committed N=5 output: **10 vehicles per dynamic run** are removed
+this way, every one of them blocked by the same edge `1194719931`. Static mode
+performs **zero** removals, so the bias only ever flatters dynamic mode. Counting
+only vehicles whose `arrivalLane` lies on their route's final edge:
+
+| Metric (N=5 mean)   | As reported | Delivery-verified |
+|---|---|---|
+| Dynamic delivered   | 145.00 | 135.00 |
+| Dynamic stranded    | 5.00   | 15.00  |
+| Dynamic fulfilment  | 95.87% | 89.20% |
+| Dynamic avg duration| 157.13s| 168.31s|
+| Fulfilment gain     | +25.07pp | +18.40pp |
+| Vehicles delivered vs static | +10.20 | +0.20 |
+
+**Static-mode figures are unaffected** — no removals occur there. Run
+`scripts/verify_delivery_integrity.py` to re-derive this table from the raw XML.
 
 ## Key Design Decisions
 
@@ -128,10 +175,27 @@ Exports charts to `output/visualizations/`.
   Remaining dispatches are queued and released as vehicles complete trips.
 - **Unreachable destinations**: If TraCI rerouting cannot find any path that
   avoids fully blocked edges, the vehicle is logged as UNDELIVERABLE and
-  removed from the simulation.
+  removed from the simulation. Note this is an *abandonment* policy: in static
+  mode those same vehicles crawl through the 0.1 m/s rubble and do eventually
+  arrive (durations 405–1625s on seed 42). Dynamic mode giving up on them is a
+  modelling choice, not a physical impossibility — and see "Reading the metrics"
+  for how it is currently mis-counted.
 - **Non-binary damage**: Edges can be FULLY BLOCKED (speed → 0.1 m/s) or
-  PARTIALLY BLOCKED (speed → 2.5 m/s) with different delay impacts.
+  PARTIALLY BLOCKED (speed → 2.5 m/s) with different delay impacts. Only fully
+  blocked edges trigger rerouting; partially blocked ones stay routable.
 - **Scope decision (Part E)**: Final results use a single static aggregate
   demand distribution, not a 25-day loop. The dataset has no real per-day
   tweet timestamps. The multi-window orchestrator (`run_all_windows.py`) is
-  retained as a capability but does not produce any reported results.
+  retained as a design sketch but does not run and produces no reported results.
+
+## Testing
+
+```bash
+python -m unittest discover -s ../tests -v     # from sumo_simulation/
+python -m unittest discover -s tests -v        # from the repository root
+```
+
+69 tests covering the demand-conversion arithmetic, the interface schema
+validator, the TraCI rerouting/fleet decision logic, the damage schedule's
+invariants, and the phantom-arrival defect. They need only `numpy`; SUMO is not
+required.
