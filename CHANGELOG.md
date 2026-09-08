@@ -146,7 +146,7 @@ the cheapest correct fix if the team wants one set of numbers.
 
 **Verified by:** `python scripts/verify_delivery_integrity.py`;
 `python -m unittest tests.test_rerouting_logic.TestPhantomArrivalDefect`
-(5 tests, all pass, including the static-mode zero-phantom control).
+(4 tests, all pass, including the static-mode zero-phantom control).
 
 ---
 
