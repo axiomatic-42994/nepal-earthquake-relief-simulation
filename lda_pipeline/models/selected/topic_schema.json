@@ -1,0 +1,692 @@
+[
+  {
+    "topic_id": 0,
+    "topic_label": "Sympathy And Support (T0)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.4810597598552704,
+    "top_keywords": [
+      "prayer",
+      "keep",
+      "everyone_affect",
+      "family",
+      "heal",
+      "ppl",
+      "suffer",
+      "offer",
+      "lose",
+      "bless"
+    ],
+    "representative_tweets": [
+      "Prayers for Baltimore!  Prayers for Nepal!  Prayers for those who have lost loved ones.",
+      "\ufffd__F prayers for Nepal \ufffd__F prayers for Baltimore  \ufffd__F prayers for anyone who needs one right now",
+      "Do please keep nepal in ur prayers &amp; to all those places wr ppl r suffering in #prayers #Godbless"
+    ]
+  },
+  {
+    "topic_id": 1,
+    "topic_label": "Donation And Volunteering (T1)",
+    "mapped_ground_truth_class": "donation_and_volunteering",
+    "semantic_match_similarity": 0.47143542766571045,
+    "top_keywords": [
+      "donate",
+      "affect",
+      "appeal",
+      "fund",
+      "child",
+      "relief_fund",
+      "pls",
+      "text",
+      "relief_effort",
+      "relief"
+    ],
+    "representative_tweets": [
+      "Our Social Justice Fund has donated $25,000 to @oxfamcanada for relief efforts in #Nepal. You can donate too: https://t.co/CUZg6jixf0",
+      "I just donated to @ActionAidUK's #NepalEarthquake Appeal. It took 2 minutes - please donate at: http://t.co/rd8rJDdFfa",
+      "If you simply use [x] to close out of Facebook's banner to donate to Nepal, it'll keep coming back. The best way to get rid of it is: donate"
+    ]
+  },
+  {
+    "topic_id": 2,
+    "topic_label": "Sympathy And Support (T2)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.3974509835243225,
+    "top_keywords": [
+      "god",
+      "plz",
+      "great",
+      "speak",
+      "stop",
+      "save",
+      "mercy",
+      "pls",
+      "care",
+      "dear"
+    ],
+    "representative_tweets": [
+      "PEOPLE OF NEPAL U WORSHIP  PAGAN HINDU GODS THAT CANT SAVE THEIR OWN TEMPELS REPENT GOD WILL SPARE U,IF NOT YOUNG N OLD WILL DIE PRO14-12",
+      "Death rate in Nepal has risen 2 over 4500. Guess god [it] isn't finished with the slaughter! Keep your head in the sand &amp; believe in a god.",
+      "#IndiaWithNepal @TimesNow Act of God can not be so unkind. God must love n care common man. He made so many of them."
+    ]
+  },
+  {
+    "topic_id": 3,
+    "topic_label": "Sympathy And Support (T3)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.30309098958969116,
+    "top_keywords": [
+      "pray",
+      "affect",
+      "join",
+      "brother_sister",
+      "family",
+      "something",
+      "well",
+      "hop",
+      "moment",
+      "time"
+    ],
+    "representative_tweets": [
+      "RT @TheEthanH26: Pray for Nepal  Pray for Baltimore  Pray for the homeless people sleeping 100 feet away from you  Pray for a change in the\u2030\u00db_",
+      "@MestrLoudermilk I think it goes against not praying to be seen. I'm ok with something like praying for nepal join me in praying for...",
+      "RT @nouisemia: Please pray for @1dnarrylovato she's in Nepal and they are affected by the earthquake. Please pray for her, her family and t\u2030\u00db_"
+    ]
+  },
+  {
+    "topic_id": 4,
+    "topic_label": "Sympathy And Support (T4)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.33394691348075867,
+    "top_keywords": [
+      "god_bless",
+      "tragedy",
+      "country",
+      "strong",
+      "bless",
+      "child",
+      "die",
+      "amen",
+      "thankyoupm",
+      "israel"
+    ],
+    "representative_tweets": [
+      "#IndiaWithNepal  ....very bad that had happened in #nepal bt our prayers and god's blessings are with them.......... god please bless them",
+      "RT @khloekardashian: My thoughts and prayers are with the proud, brave people of Nepal!! Such a devastating tragedy!! \u2021_\u00e44 God bless!!!",
+      "Welldone God bless you people and USA 4 such huge humanitarian gesture 2 victims #natural climatey #WeStandwithNepal https://t.co/h7s7pfkpAP"
+    ]
+  },
+  {
+    "topic_id": 5,
+    "topic_label": "Sympathy And Support (T5)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.550167977809906,
+    "top_keywords": [
+      "love",
+      "light",
+      "peace",
+      "share",
+      "show",
+      "compassion",
+      "much",
+      "tragedy",
+      "heal",
+      "someone"
+    ],
+    "representative_tweets": [
+      "LOVE LIFE LOVE YOU TELL SUMBODY YOU LOVE THEM JUST BECAUSE FOLLOW RETWEET https://t.co/puxk1IvdyU ENJOY https://t.co/GXaTJTh8Is",
+      "@GSTDiscreation @ashish09142764 In the midst of this tragedy we know that Y love Nepal Lord show Your Love&amp;Compassion 4 this mourning nation",
+      "People should stop living in history and support peace and love... Nepal needs love and not your interference in... http://t.co/7ciuRTa1aE"
+    ]
+  },
+  {
+    "topic_id": 6,
+    "topic_label": "Sympathy And Support (T6)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.13945098221302032,
+    "top_keywords": [
+      "thank",
+      "modi",
+      "share",
+      "many",
+      "time",
+      "big",
+      "appreciate",
+      "link",
+      "amaze",
+      "skype"
+    ],
+    "representative_tweets": [
+      "Many many thanks to PM Modi for helping the people who are facing disaster in Nepal and India as well.Good job sir and keep it up.Thank you.",
+      "Yes,we have to thank our dear PM Modi ji but let us say a big thank u to our Indian Army 4 dis tremendous work at Nepal @adgpi #ThankYouPM",
+      "@SushmaSwaraj   thank you   Mr Pm modi. &amp; miss susmaji very fast action any help.Nepal  a  thanks Midia"
+    ]
+  },
+  {
+    "topic_id": 7,
+    "topic_label": "Injured Or Dead People (T7)",
+    "mapped_ground_truth_class": "injured_or_dead_people",
+    "semantic_match_similarity": 0.21998858451843262,
+    "top_keywords": [
+      "like",
+      "tweet",
+      "indiawithnepal",
+      "also",
+      "time",
+      "tragedy",
+      "even",
+      "pic",
+      "live",
+      "want"
+    ],
+    "representative_tweets": [
+      "Dumb tweets like these really justifies the reconversion programs like #GharVapsi  #HelpNepal  http://t.co/766hz7XV4I via @opindia_com",
+      "#prey#for#nepal##kik #kikme #loveofmylife #l4l #likeforfollow #like4like #lookoftheday #like4follow\ufffd\ufffd_ https://t.co/91hEblxQf7",
+      "so louis and harry already tweeted about donating in nepal. Maybe they are like babe have you tweeted about nepal yet..doin in right now"
+    ]
+  },
+  {
+    "topic_id": 8,
+    "topic_label": "Displaced And Evacuations (T8)",
+    "mapped_ground_truth_class": "displaced_and_evacuations",
+    "semantic_match_similarity": 0.2842210531234741,
+    "top_keywords": [
+      "baltimore",
+      "tonight",
+      "world",
+      "peace",
+      "happen",
+      "burn",
+      "meanwhile",
+      "bali",
+      "fire",
+      "shit"
+    ],
+    "representative_tweets": [
+      "Baltimore, Indonesia, Nepal - There\u2030\u00db\u00aas too much happening in this world: Baltimore, Indonesia, Nepal, we... http://t.co/M8Yf4yueJG",
+      "CNN is currently talking about Nepal. Fox is talking about Baltimore. So tell me again how Baltimore is a democrat issue?",
+      "The Daily Links: Baltimore, Nepal, and The Undefeated: From Baltimore City Paper: Freddie Gray Protests: The C... http://t.co/dJyFrLxoQr"
+    ]
+  },
+  {
+    "topic_id": 9,
+    "topic_label": "Sympathy And Support (T9)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.3933565616607666,
+    "top_keywords": [
+      "heart",
+      "affect",
+      "ache",
+      "touch",
+      "may_god",
+      "family",
+      "really",
+      "bleed",
+      "always",
+      "big"
+    ],
+    "representative_tweets": [
+      "My heart is with Nepal. My heart is with Baltimore. My heart is with Palestine. My heart is with Ferguson.",
+      "Actually my heart hearts #BlackLivesMatter #TransLivesMatter #NepalEarthquake",
+      "Heart in Baltimore, heart in Nepal."
+    ]
+  },
+  {
+    "topic_id": 10,
+    "topic_label": "Response Efforts (T10)",
+    "mapped_ground_truth_class": "response_efforts",
+    "semantic_match_similarity": 0.5004159212112427,
+    "top_keywords": [
+      "support",
+      "relief_effort",
+      "appeal",
+      "show",
+      "child",
+      "want",
+      "provide",
+      "response",
+      "thank_much",
+      "unicef"
+    ],
+    "representative_tweets": [
+      "showing support for Bruce Jenner.. or show support to the 3000+ who have died in Nepal? this world is fucked and i want no part in it \ufffd_\ufffd0",
+      "Ok i rly want to support nepal but I also want to support myself thru college",
+      "@BillGates sir  plz  do  support  to  nepal  as much as u can .if  u want  u can re  build whole  nepal.....plz  do  support"
+    ]
+  },
+  {
+    "topic_id": 11,
+    "topic_label": "Displaced And Evacuations (T11)",
+    "mapped_ground_truth_class": "displaced_and_evacuations",
+    "semantic_match_similarity": 0.23509499430656433,
+    "top_keywords": [
+      "india",
+      "thankyoupm",
+      "china",
+      "indiawithnepal",
+      "modi",
+      "govt",
+      "land",
+      "rescue",
+      "proud",
+      "part"
+    ],
+    "representative_tweets": [
+      "Check this @SuryaRay India swings into action, rushes relief personnel, material to Nepal: India\u2030\u00db_ http://t.co/GvKTazfmGB #SuryaRay #India",
+      "India Nepal Help: India Nepal Help, India is sending disaster-response teams, medical aid and food supplies to\u2030\u00db_ http://t.co/gQvBmYBEeo",
+      "RT @AnupKaphle: China expresses discontent over India's work in #Nepal; Nepali govt asks India not to fly close to Chinese airspace http://\u2030\u00db_"
+    ]
+  },
+  {
+    "topic_id": 12,
+    "topic_label": "Sympathy And Support (T12)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.4903855621814728,
+    "top_keywords": [
+      "victim",
+      "rip",
+      "family",
+      "mourn",
+      "relief",
+      "offer",
+      "want",
+      "assist",
+      "appeal",
+      "lead"
+    ],
+    "representative_tweets": [
+      "Ways to Help Nepal's Earthquake Victims: The following are some of the organizations providing relief in Nepal to thousands of victim...",
+      "If #Israel wants to Help #Nepal victims thats Great. But they have 1000s of #Victims to Help 1st from the #Gaza Massacre. #IsraelinNepal",
+      "May god give d strength to families of victims @nepal earthquake...RIP"
+    ]
+  },
+  {
+    "topic_id": 13,
+    "topic_label": "Sympathy And Support (T13)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.47351711988449097,
+    "top_keywords": [
+      "stay_strong",
+      "stay",
+      "tragedy",
+      "prayersfornepal",
+      "always",
+      "beautiful",
+      "strong",
+      "safe",
+      "care",
+      "light"
+    ],
+    "representative_tweets": [
+      "Stay strong Nepal,stay strong! #PakStandsWithNepal",
+      "Stay strong, Nepal. Stay strong, Baltimore. \ufffd__F\ufffd__F\ufffd__F",
+      "Stay strong Nepal and stay strong Baltimore \ufffd_\ufffd7"
+    ]
+  },
+  {
+    "topic_id": 14,
+    "topic_label": "Sympathy And Support (T14)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.37688037753105164,
+    "top_keywords": [
+      "devastate",
+      "picture",
+      "affect",
+      "tragedy",
+      "kill",
+      "hear",
+      "may_god",
+      "absolutely",
+      "aftermath",
+      "village"
+    ],
+    "representative_tweets": [
+      "Devastating to see the continued aftermath for #Nepal.  Simple things make a dif...: Devastating to see the co... http://t.co/W02yR6jm3M",
+      "Earthquake Devastates Nepal, Killing More Than 1,200 http://t.co/86Wmp86HSQ so devastating, i'm not too religious but i'm praying for them.",
+      "Devastating pictures of life lost &amp; homes destroyed. So disheartening:(. May Allah grant them patience, ease and shelter  #Nepal"
+    ]
+  },
+  {
+    "topic_id": 15,
+    "topic_label": "Not Humanitarian (T15)",
+    "mapped_ground_truth_class": "not_humanitarian",
+    "semantic_match_similarity": 0.4621776044368744,
+    "top_keywords": [
+      "send",
+      "aid",
+      "team",
+      "relief",
+      "israel",
+      "affect",
+      "emergency",
+      "light",
+      "humanitarian",
+      "disaster"
+    ],
+    "representative_tweets": [
+      "Israel Sending Aid Teams to Nepal After Quake: Israel was sending a delegation to Nepal Saturday to determine ... http://t.co/fjRuwl9vZI",
+      "#TOI #TimesOfIndia US sending disaster team, initial $1 million to Nepal: John Kerry The United States will send disaster response and resc\ufffd\ufffd_",
+      "The Chosun Ilbo &gt; Korea Sends Emergency Workers to Nepal - The government decided on Monday to send about 40 aid w... http://t.co/oX9N97gseU"
+    ]
+  },
+  {
+    "topic_id": 16,
+    "topic_label": "Donation And Volunteering (T16)",
+    "mapped_ground_truth_class": "donation_and_volunteering",
+    "semantic_match_similarity": 0.3626772463321686,
+    "top_keywords": [
+      "need",
+      "food",
+      "aid",
+      "child",
+      "really",
+      "nation",
+      "helpnepal",
+      "pls",
+      "desperate",
+      "april"
+    ],
+    "representative_tweets": [
+      "Quake-Aid Need Acute in Nepal Capital, More So in Villages: Quake-aid need acute in Nepal capital, more so in villages near epicenter...",
+      "RT @OCHAAsiaPac: Priority needs - food, water, shelter &amp; medication. 1.4m people in need of food assistance. #NepalQuake Sit rep - http://t\u2030\u00db_",
+      "RT @AsijaTanu: : Nepal is in great need of help and prayers....and #MSGHelpEarthquakeVictims is there to help them...No need to worry when \u2030\u00db_"
+    ]
+  },
+  {
+    "topic_id": 17,
+    "topic_label": "Sympathy And Support (T17)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.35176393389701843,
+    "top_keywords": [
+      "sad",
+      "rip",
+      "feel",
+      "day",
+      "hear",
+      "really",
+      "soul",
+      "read",
+      "devastation",
+      "picture"
+    ],
+    "representative_tweets": [
+      "Sad news #earthquake #NepalEarthquake #sad @$@AkMathambil",
+      "Already 1500 people died in Nepal coz of Earthquake? Sad to hear :(.  RIP all :(",
+      "@1dnarrylovato @17blxckharold not from nepal but i feel sad for what has happened  u guys stay strong there are better days ahead :)"
+    ]
+  },
+  {
+    "topic_id": 18,
+    "topic_label": "Caution And Advice (T18)",
+    "mapped_ground_truth_class": "caution_and_advice",
+    "semantic_match_similarity": 0.27627041935920715,
+    "top_keywords": [
+      "hope",
+      "friend",
+      "okay",
+      "soon",
+      "safe",
+      "affect",
+      "guy",
+      "fine",
+      "country",
+      "world"
+    ],
+    "representative_tweets": [
+      "I hope more aid gets to the people out there ive not herd from my friends deep&amp;keshab i hope they are all okay in Nepal #NepalEarthquake",
+      "Hope y'all in Nepal are ok. And if you're not, then I'm sure everything will be better ;) just keep going \ufffd\ufffd_\ufffd\ufffd\ufffd #Nepal #NepalEarthquake #hope",
+      "RT @GOALUKCharity: #NepalEarthquake: We hope to not only bring emergency supplies but also a sense of hope https://t.co/Yceoe5sZMw http://t\u2030\u00db_"
+    ]
+  },
+  {
+    "topic_id": 19,
+    "topic_label": "Donation And Volunteering (T19)",
+    "mapped_ground_truth_class": "donation_and_volunteering",
+    "semantic_match_similarity": 0.4576522707939148,
+    "top_keywords": [
+      "give",
+      "way",
+      "money",
+      "affect",
+      "appeal",
+      "text_donate",
+      "relief",
+      "fuck",
+      "relief_fund",
+      "government"
+    ],
+    "representative_tweets": [
+      "RT @nrarmour: More kudos to 2010 Olympic champ @Yunaaaa, who gave $100K US to Nepal relief efforts. Given lots of money over years http://t\u2030\u00db_",
+      "Don't give prayers to Nepal, give money, you lazy religious fucks.",
+      "I give zero fucks implies that fuck is a quantitative object. If so, I wonder how many fucks are being given to #Baltimore and #Nepal."
+    ]
+  },
+  {
+    "topic_id": 20,
+    "topic_label": "Missing And Found People (T20)",
+    "mapped_ground_truth_class": "missing_and_found_people",
+    "semantic_match_similarity": 0.14848114550113678,
+    "top_keywords": [
+      "let",
+      "keep",
+      "forget",
+      "show",
+      "together",
+      "die",
+      "strong",
+      "rebuild",
+      "live",
+      "talk"
+    ],
+    "representative_tweets": [
+      "@AjTapariya Let the dying and the destitute in #Nepal go to Hell - Lets Thank our Great PM #ThankYouPM. #Sycophancy knows no bounds !",
+      "@nandanpratim Let people die a little ... but let them be scared a lot #NepalEarthquake",
+      "Let our hashtags lift debris. Let's help rebuild.  https://t.co/I64COQ1hEC http://t.co/baYHj3MqsF"
+    ]
+  },
+  {
+    "topic_id": 21,
+    "topic_label": "Injured Or Dead People (T21)",
+    "mapped_ground_truth_class": "injured_or_dead_people",
+    "semantic_match_similarity": 0.39477139711380005,
+    "top_keywords": [
+      "hit",
+      "dead",
+      "death_toll",
+      "massive",
+      "kill",
+      "many",
+      "report",
+      "day",
+      "aftershock",
+      "everest"
+    ],
+    "representative_tweets": [
+      "(#LosDelSonido) 81 Dead as 7.9 Quake Hits Nepal, Causing Big Damage: Many injuries have been reported.  (#IvanBerroa)",
+      "#retweet: RT AJENews: Aftershocks reported as death toll in Nepal quake hits 2,430 killed http://t.co/IEHdsSPreY http://t.co/4y1Pzz3tyO",
+      "@thescript my country Nepal has been hit by a massive earthquake.3500 have died and many r still trapped.Please help us #NepalEarthquake"
+    ]
+  },
+  {
+    "topic_id": 22,
+    "topic_label": "Sympathy And Support (T22)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.3405919075012207,
+    "top_keywords": [
+      "one",
+      "talk",
+      "another",
+      "lose",
+      "die",
+      "would",
+      "every",
+      "soulvultures",
+      "care",
+      "time"
+    ],
+    "representative_tweets": [
+      "...no one talking nepal...    no one talking anzac day....     no one actually talking reallity...  so we switch off....",
+      "RT @p_thakran: YOUR ONE RT MAY CAN HELP SOME ONE TO LOCATE &amp; FIND DEAR ONE GUYS  https://t.co/48qJQ2Hzhw http://t.co/wovgezdMsW",
+      "RT @FredZeppelin12: Thousands die in an earthquake in Nepal   One died in police custody   One story gets 24/7/365"
+    ]
+  },
+  {
+    "topic_id": 23,
+    "topic_label": "Sympathy And Support (T23)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.37805917859077454,
+    "top_keywords": [
+      "good",
+      "work",
+      "hear",
+      "friend",
+      "relief",
+      "time",
+      "read",
+      "great",
+      "feel",
+      "lord"
+    ],
+    "representative_tweets": [
+      "Anyone holding some bitcoin? Now would be a good time to use them for a good cause via @ChangeTip   https://t.co/wWBesMYEHG",
+      "Wonderful initiative by my favourite workout company / best get fit plan in town @joinvint. Do good, feel good. https://t.co/rA8nuLLPF3",
+      "@narendramodi @Ina_kshk 3.SIR GOOD EVE.OUR GORKHA ARMY PERS WILL B OF GRT HELP,PLZ SEND THEM 4 RELIEF,IT IS REQD NOW AS GOOD WILL N 4 SOLACE"
+    ]
+  },
+  {
+    "topic_id": 24,
+    "topic_label": "Caution And Advice (T24)",
+    "mapped_ground_truth_class": "caution_and_advice",
+    "semantic_match_similarity": 0.2824387848377228,
+    "top_keywords": [
+      "everyone",
+      "stay_safe",
+      "pls",
+      "keep",
+      "reach",
+      "bless",
+      "life",
+      "happy",
+      "earthquakenepal",
+      "appreciate"
+    ],
+    "representative_tweets": [
+      "RT @OfficialBaileyM: 'You can't help everyone, but everyone can help someone.' \u2021__F\u2021_\u00c0B\u2021_\u00caD happy Sunday guys, I Love you. Pls continue to pray for \u2030\u00db_",
+      "What if everyone in Baltimore helped out everyone in Nepal instead of destroying their own city? Wouldn't that be... http://t.co/j1EKyObytq",
+      "Praying for everyone in nepal and for everyone who's friends and families have been affected"
+    ]
+  },
+  {
+    "topic_id": 25,
+    "topic_label": "Sympathy And Support (T25)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.24741320312023163,
+    "top_keywords": [
+      "much",
+      "happen",
+      "really",
+      "day",
+      "heartbreaking",
+      "want",
+      "still",
+      "plz",
+      "shock",
+      "worry"
+    ],
+    "representative_tweets": [
+      "RT @kashishds: Historic #earthquake in #Nepal; much lost, many to mourn, as much to rebuild.Hopefully worst is over.Stay alert, safe http:/\u2030\u00db_",
+      "Remembering my time in Nepal, how much it influenced me, and how much of it has suddenly been changed.",
+      "#NepalEarthquake More than 5,000 lives lost. So much recovery to do. Tragically, the number will become much higher. http://t.co/qXK1xCWoZW"
+    ]
+  },
+  {
+    "topic_id": 26,
+    "topic_label": "Donation And Volunteering (T26)",
+    "mapped_ground_truth_class": "donation_and_volunteering",
+    "semantic_match_similarity": 0.3776078224182129,
+    "top_keywords": [
+      "nepalquakerelief",
+      "share",
+      "plz",
+      "world",
+      "sir",
+      "info",
+      "volunteer",
+      "information",
+      "list",
+      "proud"
+    ],
+    "representative_tweets": [
+      "where can we get the water purification tablets (near Sukedhara area)..?? plz share if u have info #NepalQuakeRelief",
+      "@BBCBreaking Plz share the info #Nepal http://t.co/74WxPUz9Ke #NepalEarthquake #NepalQuakeRelief #earthquake http://t.co/HYgwl0icqI",
+      "#World Please RT! SHARE! #NepalEarthquake  #NepalQuakeRelief  #Nepal https://t.co/r33txizMTm"
+    ]
+  },
+  {
+    "topic_id": 27,
+    "topic_label": "Missing And Found People (T27)",
+    "mapped_ground_truth_class": "missing_and_found_people",
+    "semantic_match_similarity": 0.38022148609161377,
+    "top_keywords": [
+      "miss",
+      "family",
+      "find",
+      "safe",
+      "man",
+      "brother",
+      "friend",
+      "contact",
+      "langtang",
+      "pls"
+    ],
+    "representative_tweets": [
+      "Missing Newry earthquake man 'alive': A County Down man reported missing in Nepal after an earthquake is alive,\u2030\u00db_ http://t.co/Nawpk8JQTG",
+      "RT @891adelaide: Missing Adelaide man Zac Sheridan  calls his family from Nepal. @MichaelSmyth_ spoke to his brother http://t.co/P1QG3ieVGt",
+      "The number of #Australians feared missing after #NepalEarthquake is growing. 66 names are on The Red Cross's Family Links website."
+    ]
+  },
+  {
+    "topic_id": 28,
+    "topic_label": "Sympathy And Support (T28)",
+    "mapped_ground_truth_class": "sympathy_and_support",
+    "semantic_match_similarity": 0.4128485918045044,
+    "top_keywords": [
+      "right",
+      "life",
+      "care",
+      "disaster",
+      "die",
+      "man",
+      "bad",
+      "talk",
+      "really",
+      "anything"
+    ],
+    "representative_tweets": [
+      "Right man, right  https://t.co/xGZUy0dFUu",
+      "@sallykohn  is seldom on the right side of anything, but I support her when she is. Helping the people of Nepal is right. @SkyeShepard",
+      "@DeIics: Over 4000 people died in the Nepal earthquake but no one seems to care about that right now I care. Life is a gift, treasure it."
+    ]
+  },
+  {
+    "topic_id": 29,
+    "topic_label": "Donation And Volunteering (T29)",
+    "mapped_ground_truth_class": "donation_and_volunteering",
+    "semantic_match_similarity": 0.4383734464645386,
+    "top_keywords": [
+      "donation",
+      "aid",
+      "relief",
+      "disaster",
+      "collect",
+      "reach",
+      "facebook",
+      "want",
+      "accept",
+      "apple"
+    ],
+    "representative_tweets": [
+      "Facebook Collecting Nepal Earthquake Aid Donations: Facebook was rolling out a donation button Monday for contributions to victims of...",
+      "#Tech Facebook releases donation button for Nepal earthquake: Facebook was rolling out a donation button Monda... http://t.co/QUbUNLgkJX",
+      "If you're thinking of making a donation for #NepalQuake, you should consider using the @BigGive website. All donations are doubled."
+    ]
+  }
+]

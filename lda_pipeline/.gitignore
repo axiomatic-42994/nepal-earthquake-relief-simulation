@@ -1,0 +1,87 @@
+# ==============================================================================
+# Git Ignore Configuration - Nepal Earthquake LDA Topic Modeling
+# ==============================================================================
+
+# Markdown Files & Project Notes / Sprints
+*.md
+!README.md
+!INSTRUCTIONS.md
+context.md
+sprint.md
+results_lda_topic_modeling.md
+selection_memo.md
+
+# Virtual Environments
+.venv/
+env/
+venv/
+ENV/
+.env
+
+# Python Caches & Build Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Jupyter Notebook Caches
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Data (Raw, Interim, Processed)
+data/raw/
+data/interim/
+data/processed/
+*.parquet
+*.parquet.tmp
+*.mm
+*.mm.index
+*.gensim*
+*.csv
+
+# Model Checkpoints & Large Binaries
+models/checkpoints/
+models/selected/model.pkl
+models/selected/model.gensim*
+*.pkl
+*.pickle
+*.joblib
+*.bin
+*.tar.gz
+*.zip
+
+# Generated Reports, Figures & Interactive Visualizations
+reports/figures/
+reports/*.csv
+reports/*.png
+reports/*.html
+reports/*.pdf
+
+# Logs, Diagnostics & Temp Files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# OS & IDE Settings
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.project
+.pydevproject
+.settings/

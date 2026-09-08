@@ -1,0 +1,93 @@
+project:
+  name: "nepal-quake-lda"
+  description: "LDA Topic Modeling of Humanitarian Needs — 2015 Nepal Earthquake"
+  seed: 42
+
+paths:
+  raw_data_dir: "data/raw"
+  interim_data_dir: "data/interim"
+  processed_data_dir: "data/processed"
+  interim_data_file: "data/interim/nepal_eq.csv"
+  processed_tokens_file: "data/processed/nepal_eq_processed.parquet"
+  dictionary_file: "data/processed/dictionary.gensim"
+  corpus_bow_file: "data/processed/corpus_bow.mm"
+  corpus_tfidf_file: "data/processed/corpus_tfidf.mm"
+  tfidf_model_file: "data/processed/tfidf_model.gensim"
+  checkpoints_dir: "models/checkpoints"
+  selected_model_dir: "models/selected"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+  leaderboard_file: "reports/model_leaderboard.csv"
+
+dataset:
+  hf_name: "QCRI/CrisisBench-all-lang"
+  subset: "humanitarian"
+  event_filter: "2015_nepal_earthquake"
+  lang_filter: "en"
+
+preprocessing:
+  min_token_len: 3
+  max_token_len: 25
+  no_below: 5          # Min document frequency for dictionary filtering
+  no_above: 0.5        # Max document frequency fraction
+  keep_n: 10000        # Max vocabulary size
+  min_phrase_count: 5  # Bigram/Trigram minimum count
+  phrase_threshold: 10.0
+  custom_stopwords:
+    - "nepal"
+    - "earthquake"
+    - "nepalearthquake"
+    - "nepalquake"
+    - "kathmandu"
+    - "prayfornepal"
+    - "quake"
+    - "rt"
+    - "http"
+    - "https"
+    - "amp"
+    - "via"
+    - "today"
+    - "yesterday"
+    - "tomorrow"
+    - "please"
+    - "help"
+    - "people"
+    - "news"
+    - "update"
+    - "photo"
+    - "video"
+    - "look"
+    - "say"
+    - "come"
+    - "make"
+    - "go"
+    - "get"
+    - "see"
+    - "know"
+    - "take"
+    - "think"
+
+models:
+  k_sweep: [5, 8, 10, 12, 15, 20, 25, 30]
+  default_k: 10
+  gensim_lda:
+    passes: 15
+    iterations: 200
+    alpha: "auto"      # or symmetric / asymmetric
+    eta: "auto"
+    eval_every: null
+    random_state: 42
+  sklearn_lda:
+    max_iter: 20
+    learning_method: "batch"
+    random_state: 42
+  nmf:
+    max_iter: 200
+    init: "nndsvda"
+    random_state: 42
+
+evaluation:
+  coherence_metrics: ["c_v", "u_mass"]
+  top_n_words: 10
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  alignment_similarity_threshold: 0.35
